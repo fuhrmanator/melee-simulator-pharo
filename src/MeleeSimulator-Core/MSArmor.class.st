@@ -41,14 +41,34 @@ MSArmor class >> armorRegistry [
 	^ armorRegistry
 ]
 
+{ #category : #'as yet unclassified' }
+MSArmor class >> chain [
+	^ armorRegistry at: #chain
+]
+
 { #category : #predefined }
 MSArmor class >> leather [
 	^ self armorRegistry at: #leather.
 ]
 
+{ #category : #'as yet unclassified' }
+MSArmor class >> none [
+	^ armorRegistry at: #none.
+]
+
+{ #category : #'as yet unclassified' }
+MSArmor class >> plate [
+	^ armorRegistry at: #plate
+]
+
 { #category : #initialization }
 MSArmor class >> reset [
 	armorRegistry := nil.
+]
+
+{ #category : #accessing }
+MSArmor >> dxAdjustment [
+	^ dxAdjustment
 ]
 
 { #category : #accessing }
@@ -62,8 +82,23 @@ MSArmor >> hitStopped: anInteger [
 ]
 
 { #category : #accessing }
+MSArmor >> hitsStopped [
+	^ hitsStopped
+]
+
+{ #category : #accessing }
+MSArmor >> maAdjustment [
+	^ maAdjustment
+]
+
+{ #category : #accessing }
 MSArmor >> maAdjustment: anInteger [ 
 	maAdjustment := anInteger
+]
+
+{ #category : #accessing }
+MSArmor >> name [
+	^ name
 ]
 
 { #category : #accessing }

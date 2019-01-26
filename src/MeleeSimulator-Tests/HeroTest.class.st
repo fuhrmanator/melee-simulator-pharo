@@ -9,6 +9,12 @@ HeroTest >> testArmor [
 	| hero |
 	hero := MSHero new armor: MSArmor leather.
 	self assert: hero armor equals: MSArmor leather.
+	hero armor: MSArmor none.
+	self assert: hero armor equals: MSArmor none.
+	hero armor: MSArmor chain.
+	self assert: hero armor equals: MSArmor chain.
+	hero armor: MSArmor plate.
+	self assert: hero armor equals: MSArmor plate.
 ]
 
 { #category : #tests }
