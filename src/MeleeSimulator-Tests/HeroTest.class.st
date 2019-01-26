@@ -8,21 +8,21 @@ Class {
 HeroTest >> testArmor [
 	| hero |
 	hero := MSHero new armor: MSArmor leather.
-	self assert: (hero armor = MSArmor leather).
+	self assert: hero armor equals: MSArmor leather.
 ]
 
 { #category : #tests }
 HeroTest >> testDx [
 	| hero |
 	hero := MSHero new dx: 12.
-	self assert: (hero dx = 12).
+	self assert: hero dx equals: 12.
 ]
 
 { #category : #tests }
 HeroTest >> testName [
 	| hero |
 	hero := MSHero new name: 'Trevor'.
-	self assert: (hero name = 'Trevor').
+	self assert: hero name equals: 'Trevor'.
 ]
 
 { #category : #tests }
@@ -36,5 +36,5 @@ HeroTest >> testNew [
 HeroTest >> testSt [
 	| hero |
 	hero := MSHero new st: 12.
-	self assert: (hero st = 12).
+	self assert: hero st equals: 12.
 ]
