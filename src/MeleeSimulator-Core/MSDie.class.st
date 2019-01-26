@@ -16,3 +16,13 @@ MSDie class >> rollDice: anInteger [
 	1 to: anInteger do: [ :i | total := total + 6 atRandom ].
 	^ total
 ]
+
+{ #category : #utilities }
+MSDie class >> rollFourDice [
+	^ self rollDice: 4
+]
+
+{ #category : #utilities }
+MSDie class >> rollThreeDice [
+	^ self rollDice: 3
+]
