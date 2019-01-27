@@ -18,6 +18,11 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+MSWeapon class >> dagger [
+	^ self weaponRegistry at: #dagger.
+]
+
+{ #category : #'as yet unclassified' }
 MSWeapon class >> none [
 	^ self weaponRegistry at: #none
 ]
@@ -30,20 +35,215 @@ MSWeapon class >> reset [
 { #category : #accessing }
 MSWeapon class >> weaponRegistry [
 	"name st dice modifier isTwoHanded isThrown isMissile isPole"
+
 	weaponRegistry
 		ifNil: [ weaponRegistry := Dictionary new.
 			weaponRegistry
 				at: #none
 				put:
 					(self new
-						name: 'No weapon';
+						name: 'None';
 						st: 0;
 						dice: 0;
 						modifier: 0;
-						isTwoHanded: false;
 						isThrown: false;
-						isMissile: false;
-						isPole: false) ].
+						isTwoHanded: false;
+						isPole: false;
+						isMissile: false).
+			weaponRegistry
+				at: #dagger
+				put:
+					(self new
+						name: 'Dagger';
+						st: 0;
+						dice: 1;
+						modifier: -1;
+						isThrown: true;
+						isTwoHanded: false;
+						isPole: false;
+						isMissile: false).
+			weaponRegistry
+				at: #rapier
+				put:
+					(self new
+						name: 'Rapier';
+						st: 9;
+						dice: 1;
+						modifier: 0;
+						isThrown: false;
+						isTwoHanded: false;
+						isPole: false;
+						isMissile: false).
+			weaponRegistry
+				at: #club
+				put:
+					(self new
+						name: 'Club';
+						st: 9;
+						dice: 1;
+						modifier: 0;
+						isThrown: true;
+						isTwoHanded: false;
+						isPole: false;
+						isMissile: false).
+			weaponRegistry
+				at: #hammer
+				put:
+					(self new
+						name: 'Hammer';
+						st: 10;
+						dice: 1;
+						modifier: 1;
+						isThrown: true;
+						isTwoHanded: false;
+						isPole: false;
+						isMissile: false).
+			weaponRegistry
+				at: #cutlass
+				put:
+					(self new
+						name: 'Cutlass';
+						st: 10;
+						dice: 2;
+						modifier: -2;
+						isThrown: false;
+						isTwoHanded: false;
+						isPole: false;
+						isMissile: false).
+			weaponRegistry
+				at: #shortsword
+				put:
+					(self new
+						name: 'Shortsword';
+						st: 11;
+						dice: 2;
+						modifier: -1;
+						isThrown: false;
+						isTwoHanded: false;
+						isPole: false;
+						isMissile: false).
+			weaponRegistry
+				at: #mace
+				put:
+					(self new
+						name: 'Mace';
+						st: 11;
+						dice: 2;
+						modifier: -1;
+						isThrown: true;
+						isTwoHanded: false;
+						isPole: false;
+						isMissile: false).
+			weaponRegistry
+				at: #smallAx
+				put:
+					(self new
+						name: 'Small ax';
+						st: 11;
+						dice: 1;
+						modifier: 2;
+						isThrown: false;
+						isTwoHanded: false;
+						isPole: false;
+						isMissile: false).
+			weaponRegistry
+				at: #broadsword
+				put:
+					(self new
+						name: 'Broadsword';
+						st: 12;
+						dice: 2;
+						modifier: 0;
+						isThrown: false;
+						isTwoHanded: false;
+						isPole: false;
+						isMissile: false).
+			weaponRegistry
+				at: #morningstar
+				put:
+					(self new
+						name: 'Morningstar';
+						st: 13;
+						dice: 2;
+						modifier: 1;
+						isThrown: false;
+						isTwoHanded: false;
+						isPole: false;
+						isMissile: false).
+			weaponRegistry
+				at: #twoHandedSword
+				put:
+					(self new
+						name: 'Two-handed sword';
+						st: 14;
+						dice: 3;
+						modifier: -1;
+						isThrown: false;
+						isTwoHanded: true;
+						isPole: false;
+						isMissile: false).
+			weaponRegistry
+				at: #battleaxe
+				put:
+					(self new
+						name: 'Battleaxe';
+						st: 15;
+						dice: 3;
+						modifier: 0;
+						isThrown: false;
+						isTwoHanded: true;
+						isPole: false;
+						isMissile: false).
+
+			"pole weapons"
+			weaponRegistry
+				at: #javelin
+				put:
+					(self new
+						name: 'Javelin';
+						st: 9;
+						dice: 1;
+						modifier: -1;
+						isThrown: true;
+						isTwoHanded: false;
+						isPole: true;
+						isMissile: false).
+			weaponRegistry
+				at: #spear
+				put:
+					(self new
+						name: 'Spear';
+						st: 11;
+						dice: 1;
+						modifier: 1;
+						isThrown: true;
+						isTwoHanded: true;
+						isPole: true;
+						isMissile: false).
+			weaponRegistry
+				at: #halberd
+				put:
+					(self new
+						name: 'Halberd';
+						st: 13;
+						dice: 2;
+						modifier: -1;
+						isThrown: false;
+						isTwoHanded: true;
+						isPole: true;
+						isMissile: false).
+			weaponRegistry
+				at: #pikeAxe
+				put:
+					(self new
+						name: 'Pike axe';
+						st: 15;
+						dice: 2;
+						modifier: 2;
+						isThrown: false;
+						isTwoHanded: true;
+						isPole: true;
+						isMissile: false) ].
 	^ weaponRegistry
 ]
 

@@ -57,6 +57,27 @@ MSHero >> armor: aMSArmor [
 ]
 
 { #category : #accessing }
+MSHero >> damageTaken [
+	^ damageTaken
+]
+
+{ #category : #accessing }
+MSHero >> damageTakenThisRound [
+	^ damageTakenThisRound
+]
+
+{ #category : #combat }
+MSHero >> dropWeapon [
+	droppedWeapon := readiedWeapon.
+	readiedWeapon := MSWeapon none.
+]
+
+{ #category : #accessing }
+MSHero >> droppedWeapon [
+	^ droppedWeapon
+]
+
+{ #category : #accessing }
 MSHero >> dx [
 	^ dx
 ]
@@ -64,6 +85,11 @@ MSHero >> dx [
 { #category : #accessing }
 MSHero >> dx: anInteger [ 
 	dx := anInteger
+]
+
+{ #category : #accessing }
+MSHero >> hasDxPenaltyFromInjuries [
+	^ hasDxPenaltyFromInjuries
 ]
 
 { #category : #initialization }
@@ -87,6 +113,46 @@ MSHero >> initialize [
 	isCharging := false
 ]
 
+{ #category : #accessing }
+MSHero >> isCharging [
+	^ isCharging
+]
+
+{ #category : #accessing }
+MSHero >> isCharging: anObject [
+	isCharging := anObject
+]
+
+{ #category : #accessing }
+MSHero >> isDefending [
+	^ isDefending
+]
+
+{ #category : #accessing }
+MSHero >> isDefending: anObject [
+	isDefending := anObject
+]
+
+{ #category : #accessing }
+MSHero >> isKnockedDown [
+	^ isKnockedDown
+]
+
+{ #category : #accessing }
+MSHero >> isPickingUpWeapon [
+	^ isPickingUpWeapon
+]
+
+{ #category : #accessing }
+MSHero >> isRecovering [
+	^ isRecovering
+]
+
+{ #category : #accessing }
+MSHero >> isStandingUp [
+	^ isStandingUp
+]
+
 { #category : #combat }
 MSHero >> isStrengthLowPenalty [
 	^ (st - damageTaken) <= 3
@@ -100,6 +166,41 @@ MSHero >> name [
 { #category : #accessing }
 MSHero >> name: aString [ 
 	name := aString
+]
+
+{ #category : #'as yet unclassified' }
+MSHero >> newRound [
+	"Called to transition the hero's state to a new round"
+
+	isCharging := false.
+	isDefending := false.
+	damageTakenThisRound := 0.
+
+	"Stand up, or pick up dropped weapon?"
+	isStandingUp
+		ifTrue: [ isKnockedDown := false.
+			isStandingUp := false ]
+		ifFalse: [ isPickingUpWeapon
+				ifTrue: [ readiedWeapon := droppedWeapon.
+					droppedWeapon := MSWeapon none.
+					isPickingUpWeapon := false ] ].
+
+	"Dx penalty lasts one complete round"
+	hasDxPenaltyFromInjuries & isRecovering
+		ifTrue: [ hasDxPenaltyFromInjuries := false.
+			isRecovering := false ]
+		ifFalse: [ hasDxPenaltyFromInjuries
+				ifTrue: [ isRecovering := true ] ]
+]
+
+{ #category : #combat }
+MSHero >> pickUpWeapon [
+	isPickingUpWeapon := true.
+]
+
+{ #category : #accessing }
+MSHero >> readiedWeapon [
+	^ readiedWeapon
 ]
 
 { #category : #accessing }
@@ -132,7 +233,7 @@ MSHero >> sufferingDexPenalty [
 	^ (damageTakenThisRound >= 5) | isRecovering 
 ]
 
-{ #category : #combat }
+{ #category : #private }
 MSHero >> takeDamage: damage [
 	damageTaken := damageTaken + damage.
 	damageTakenThisRound := damageTakenThisRound + damage.
