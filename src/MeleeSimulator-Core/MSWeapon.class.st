@@ -17,94 +17,94 @@ Class {
 	#category : #'MeleeSimulator-Core'
 }
 
-{ #category : #'as yet unclassified' } 
-MSWeapon class >> none [
-	^ self weaponRegistry at: #none
-]
-
-{ #category : #'as yet unclassified' } 
-MSWeapon class >> dagger [
-	^ self weaponRegistry at: #dagger
-]
-
-{ #category : #'as yet unclassified' } 
-MSWeapon class >> rapier [
-	^ self weaponRegistry at: #rapier
-]
-
-{ #category : #'as yet unclassified' } 
-MSWeapon class >> club [
-	^ self weaponRegistry at: #club
-]
-
-{ #category : #'as yet unclassified' } 
-MSWeapon class >> hammer [
-	^ self weaponRegistry at: #hammer
-]
-
-{ #category : #'as yet unclassified' } 
-MSWeapon class >> cutlass [
-	^ self weaponRegistry at: #cutlass
-]
-
-{ #category : #'as yet unclassified' } 
-MSWeapon class >> shortsword [
-	^ self weaponRegistry at: #shortsword
-]
-
-{ #category : #'as yet unclassified' } 
-MSWeapon class >> mace [
-	^ self weaponRegistry at: #mace
-]
-
-{ #category : #'as yet unclassified' } 
-MSWeapon class >> small_ax [
-	^ self weaponRegistry at: #small_ax
-]
-
-{ #category : #'as yet unclassified' } 
-MSWeapon class >> broadsword [
-	^ self weaponRegistry at: #broadsword
-]
-
-{ #category : #'as yet unclassified' } 
-MSWeapon class >> morningstar [
-	^ self weaponRegistry at: #morningstar
-]
-
-{ #category : #'as yet unclassified' } 
-MSWeapon class >> two_handed_sword [
-	^ self weaponRegistry at: #two_handed_sword
-]
-
-{ #category : #'as yet unclassified' } 
+{ #category : #'as yet unclassified' }
 MSWeapon class >> battleaxe [
 	^ self weaponRegistry at: #battleaxe
 ]
 
-{ #category : #'as yet unclassified' } 
-MSWeapon class >> javelin [
-	^ self weaponRegistry at: #javelin
+{ #category : #'as yet unclassified' }
+MSWeapon class >> broadsword [
+	^ self weaponRegistry at: #broadsword
 ]
 
-{ #category : #'as yet unclassified' } 
-MSWeapon class >> spear [
-	^ self weaponRegistry at: #spear
+{ #category : #'as yet unclassified' }
+MSWeapon class >> club [
+	^ self weaponRegistry at: #club
 ]
 
-{ #category : #'as yet unclassified' } 
+{ #category : #'as yet unclassified' }
+MSWeapon class >> cutlass [
+	^ self weaponRegistry at: #cutlass
+]
+
+{ #category : #'as yet unclassified' }
+MSWeapon class >> dagger [
+	^ self weaponRegistry at: #dagger
+]
+
+{ #category : #'as yet unclassified' }
 MSWeapon class >> halberd [
 	^ self weaponRegistry at: #halberd
 ]
 
-{ #category : #'as yet unclassified' } 
-MSWeapon class >> pike_axe [
-	^ self weaponRegistry at: #pike_axe
+{ #category : #'as yet unclassified' }
+MSWeapon class >> hammer [
+	^ self weaponRegistry at: #hammer
+]
+
+{ #category : #'as yet unclassified' }
+MSWeapon class >> javelin [
+	^ self weaponRegistry at: #javelin
+]
+
+{ #category : #'as yet unclassified' }
+MSWeapon class >> mace [
+	^ self weaponRegistry at: #mace
+]
+
+{ #category : #'as yet unclassified' }
+MSWeapon class >> morningstar [
+	^ self weaponRegistry at: #morningstar
+]
+
+{ #category : #'as yet unclassified' }
+MSWeapon class >> none [
+	^ self weaponRegistry at: #none
+]
+
+{ #category : #'as yet unclassified' }
+MSWeapon class >> pikeAxe [
+	^ self weaponRegistry at: #pikeAxe
+]
+
+{ #category : #'as yet unclassified' }
+MSWeapon class >> rapier [
+	^ self weaponRegistry at: #rapier
 ]
 
 { #category : #'as yet unclassified' }
 MSWeapon class >> reset [
 	weaponRegistry := nil
+]
+
+{ #category : #'as yet unclassified' }
+MSWeapon class >> shortsword [
+	^ self weaponRegistry at: #shortsword
+]
+
+{ #category : #'as yet unclassified' }
+MSWeapon class >> smallAx [
+	^ self weaponRegistry at: #smallAx
+]
+
+{ #category : #'as yet unclassified' }
+MSWeapon class >> spear [
+	^ self weaponRegistry at: #spear
+]
+
+{ #category : #'as yet unclassified' }
+MSWeapon class >> twoHandedSword [
+	^ self weaponRegistry at: #twoHandedSword
 ]
 
 { #category : #accessing }

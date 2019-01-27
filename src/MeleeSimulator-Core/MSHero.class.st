@@ -41,7 +41,7 @@ MSHero >> adjDx [
 				ifTrue: [ 2 ]
 				ifFalse: [ 0 ])
 		-
-			(self isStrengthLowPenalty
+			(self hasStrengthLowPenalty
 				ifTrue: [ 3 ]
 				ifFalse: [ 0 ])
 ]
@@ -90,6 +90,11 @@ MSHero >> dx: anInteger [
 { #category : #accessing }
 MSHero >> hasDxPenaltyFromInjuries [
 	^ hasDxPenaltyFromInjuries
+]
+
+{ #category : #combat }
+MSHero >> hasStrengthLowPenalty [
+	^ (st - damageTaken) <= 3
 ]
 
 { #category : #initialization }
@@ -153,11 +158,6 @@ MSHero >> isStandingUp [
 	^ isStandingUp
 ]
 
-{ #category : #combat }
-MSHero >> isStrengthLowPenalty [
-	^ (st - damageTaken) <= 3
-]
-
 { #category : #accessing }
 MSHero >> name [
 	^ name
@@ -168,7 +168,7 @@ MSHero >> name: aString [
 	name := aString
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #combat }
 MSHero >> newRound [
 	"Called to transition the hero's state to a new round"
 

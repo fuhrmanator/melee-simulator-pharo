@@ -49,6 +49,21 @@ HeroTest >> testDamageTakenThisRound [
 ]
 
 { #category : #tests }
+HeroTest >> testDropWeapon [
+	| hero weapon |
+	hero := MSHero new.
+	weapon := MSWeapon morningstar.
+	hero readiedWeapon: weapon.
+	self assert: hero readiedWeapon equals: weapon.
+	
+	hero dropWeapon.
+	self assert: hero readiedWeapon equals: MSWeapon none.
+	self assert: hero droppedWeapon equals: weapon.
+	
+
+]
+
+{ #category : #tests }
 HeroTest >> testDx [
 	| hero |
 	hero := MSHero new dx: 12.
@@ -102,6 +117,23 @@ HeroTest >> testNewRound [
 ]
 
 { #category : #tests }
+HeroTest >> testPickupWeapon [
+	| hero weapon |
+	hero := MSHero new.
+	weapon := MSWeapon morningstar.
+	hero readiedWeapon: weapon.
+	self assert: hero readiedWeapon equals: weapon.
+	
+	hero dropWeapon.
+	self assert: hero readiedWeapon equals: MSWeapon none.
+	self assert: hero droppedWeapon equals: weapon.
+	self deny: hero isPickingUpWeapon.
+	
+	hero pickUpWeapon.
+	self assert: hero isPickingUpWeapon.
+]
+
+{ #category : #tests }
 HeroTest >> testSt [
 	| hero |
 	hero := MSHero new st: 12.
@@ -120,4 +152,44 @@ HeroTest >> testTakeHits [
 	hero armor: MSArmor none; takeHits: 4.
 	self assert: hero damageTaken equals: 6.
 
+]
+
+{ #category : #tests }
+HeroTest >> testWeapon [
+	| hero |
+	hero := MSHero new.
+	hero readiedWeapon: MSWeapon none.
+	self assert: hero readiedWeapon equals: MSWeapon none.
+	hero readiedWeapon: MSWeapon dagger.
+	self assert: hero readiedWeapon equals: MSWeapon dagger.
+	hero readiedWeapon: MSWeapon rapier.
+	self assert: hero readiedWeapon equals: MSWeapon rapier.
+	hero readiedWeapon: MSWeapon club.
+	self assert: hero readiedWeapon equals: MSWeapon club.
+	hero readiedWeapon: MSWeapon hammer.
+	self assert: hero readiedWeapon equals: MSWeapon hammer.
+	hero readiedWeapon: MSWeapon cutlass.
+	self assert: hero readiedWeapon equals: MSWeapon cutlass.
+	hero readiedWeapon: MSWeapon shortsword.
+	self assert: hero readiedWeapon equals: MSWeapon shortsword.
+	hero readiedWeapon: MSWeapon mace.
+	self assert: hero readiedWeapon equals: MSWeapon mace.
+	hero readiedWeapon: MSWeapon smallAx.
+	self assert: hero readiedWeapon equals: MSWeapon smallAx.
+	hero readiedWeapon: MSWeapon broadsword.
+	self assert: hero readiedWeapon equals: MSWeapon broadsword.
+	hero readiedWeapon: MSWeapon morningstar.
+	self assert: hero readiedWeapon equals: MSWeapon morningstar.
+	hero readiedWeapon: MSWeapon twoHandedSword.
+	self assert: hero readiedWeapon equals: MSWeapon twoHandedSword.
+	hero readiedWeapon: MSWeapon battleaxe.
+	self assert: hero readiedWeapon equals: MSWeapon battleaxe.
+	hero readiedWeapon: MSWeapon javelin.
+	self assert: hero readiedWeapon equals: MSWeapon javelin.
+	hero readiedWeapon: MSWeapon spear.
+	self assert: hero readiedWeapon equals: MSWeapon spear.
+	hero readiedWeapon: MSWeapon halberd.
+	self assert: hero readiedWeapon equals: MSWeapon halberd.
+	hero readiedWeapon: MSWeapon pikeAxe.
+	self assert: hero readiedWeapon equals: MSWeapon pikeAxe
 ]
