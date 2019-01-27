@@ -17,25 +17,24 @@ Class {
 MSArmor class >> armorRegistry [
 	armorRegistry
 		ifNil: [ armorRegistry := Dictionary new.
-			0halt.
 			armorRegistry
 				at: #none put: (self new name: 'No armor';
-				hitStopped: 0;
+				hitsStopped: 0;
 				maAdjustment: 0;
 				dxAdjustment: 0).
 			armorRegistry
 				at: #leather put: (self new name: 'Leather';
-				hitStopped: 2;
+				hitsStopped: 2;
 				maAdjustment: 2;
 				dxAdjustment: 2).
 			armorRegistry
 				at: #chain put: (self new name: 'Chain';
-				hitStopped: 3;
+				hitsStopped: 3;
 				maAdjustment: 4;
 				dxAdjustment: 4).
 			armorRegistry
 				at: #plate put: (self new name: 'Plate';
-				hitStopped: 5;
+				hitsStopped: 5;
 				maAdjustment: 6;
 				dxAdjustment: 6) ].
 	^ armorRegistry
@@ -77,13 +76,13 @@ MSArmor >> dxAdjustment: anInteger [
 ]
 
 { #category : #accessing }
-MSArmor >> hitStopped: anInteger [ 
-	hitsStopped := anInteger.
+MSArmor >> hitsStopped [
+	^ hitsStopped
 ]
 
 { #category : #accessing }
-MSArmor >> hitsStopped [
-	^ hitsStopped
+MSArmor >> hitsStopped: anInteger [ 
+	hitsStopped := anInteger.
 ]
 
 { #category : #accessing }

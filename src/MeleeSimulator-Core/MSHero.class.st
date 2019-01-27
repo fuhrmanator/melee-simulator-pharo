@@ -22,6 +22,22 @@ Class {
 	#category : #'MeleeSimulator-Core'
 }
 
+{ #category : #'as yet unclassified' }
+MSHero class >> name: heroName st: heroSt dx: heroDx weapon: heroWeapon armor: heroArmor shield: heroShield [
+	^ self new
+		name: heroName;
+		st: heroSt;
+		dx: heroDx;
+		readiedWeapon: heroWeapon;
+		armor: heroArmor;
+		shield: heroShield
+]
+
+{ #category : #accessing }
+MSHero >> adjDx [
+	^ dx - (armor dxAdjustment) 
+]
+
 { #category : #accessing }
 MSHero >> armor [
 	^ armor
@@ -42,6 +58,27 @@ MSHero >> dx: anInteger [
 	dx := anInteger
 ]
 
+{ #category : #initialization }
+MSHero >> initialize [
+	super initialize.
+	name := ''.
+	st := 0.
+	dx := 0.
+	readiedWeapon := MSWeapon none.
+	droppedWeapon := nil.
+	armor := MSArmor none.
+	shield := MSShield none.
+	isKnockedDown := false.
+	isStandingUp := false.
+	isPickingUpWeapon := false.
+	damageTaken := 0.
+	damageTakenThisRound := 0.
+	hasDxPenaltyFromInjuries := false.
+	isRecovering := false.
+	isDefending := false.
+	isCharging := false
+]
+
 { #category : #accessing }
 MSHero >> name [
 	^ name
@@ -53,6 +90,21 @@ MSHero >> name: aString [
 ]
 
 { #category : #accessing }
+MSHero >> readiedWeapon: aMSWeapon [ 
+	readiedWeapon := aMSWeapon 
+]
+
+{ #category : #accessing }
+MSHero >> shield [ 
+	^ shield
+]
+
+{ #category : #accessing }
+MSHero >> shield: aMSShield [
+	shield := aMSShield.
+]
+
+{ #category : #accessing }
 MSHero >> st [
 	^ st
 ]
@@ -60,4 +112,25 @@ MSHero >> st [
 { #category : #accessing }
 MSHero >> st: anInteger [ 
 	st := anInteger
+]
+
+{ #category : #combat }
+MSHero >> takeDamage: damage [
+	damageTaken := damageTaken + damage.
+	damageTakenThisRound := damageTakenThisRound + damage.
+
+	hasDxPenaltyFromInjuries := self sufferingDexPenalty.
+
+	damageTakenThisRound >= 8 ifTrue: [ isKnockedDown := true ]
+
+]
+
+{ #category : #combat }
+MSHero >> takeHits: anInteger [
+	| armorPoints damageDone |
+	armorPoints := armor hitsStopped + shield hitsStopped.
+	damageDone := anInteger - armorPoints.
+	damageDone < 0 ifTrue: [ damageDone := 0 ].
+	
+	self takeDamage: damageDone
 ]
