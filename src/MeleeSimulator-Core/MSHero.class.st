@@ -56,6 +56,13 @@ MSHero >> armor: aMSArmor [
 	armor := aMSArmor
 ]
 
+{ #category : #combat }
+MSHero >> canDoDamage [
+	"Is conscious and has a weapon (or dropped one) that can do damage"
+	^ self isConscious
+		& (readiedWeapon ~= MSWeapon none | (droppedWeapon ~= MSWeapon none))
+]
+
 { #category : #accessing }
 MSHero >> damageTaken [
 	^ damageTaken
@@ -118,6 +125,11 @@ MSHero >> initialize [
 	isCharging := false
 ]
 
+{ #category : #combat }
+MSHero >> isAlive [
+	^ st - damageTaken > 0
+]
+
 { #category : #accessing }
 MSHero >> isCharging [
 	^ isCharging
@@ -126,6 +138,11 @@ MSHero >> isCharging [
 { #category : #accessing }
 MSHero >> isCharging: anObject [
 	isCharging := anObject
+]
+
+{ #category : #combat }
+MSHero >> isConscious [
+	^ st - damageTaken > 1
 ]
 
 { #category : #accessing }

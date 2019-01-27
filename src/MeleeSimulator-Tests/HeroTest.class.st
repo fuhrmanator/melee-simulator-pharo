@@ -35,6 +35,28 @@ HeroTest >> testArmor [
 ]
 
 { #category : #tests }
+HeroTest >> testCanDoDamage [
+	| hero |
+	hero := MSHero name: 'Fred' st: 12 dx: 12 weapon: MSWeapon broadsword  armor: MSArmor none shield: MSShield none.
+	self assert: hero canDoDamage.
+	hero dropWeapon.
+	"can still do damage (just later)"
+	self assert: hero canDoDamage.
+	"make hero unconscious"
+	hero takeHits: 11.
+	self deny: hero isConscious.
+	self deny: hero canDoDamage.
+
+	hero := MSHero name: 'Fred' st: 12 dx: 12 weapon: MSWeapon broadsword  armor: MSArmor none shield: MSShield none.
+	self assert: hero canDoDamage.
+	"make hero dead"
+	hero takeHits: 12.
+	self deny: hero isAlive.
+	self deny: hero canDoDamage.
+
+]
+
+{ #category : #tests }
 HeroTest >> testDamageTakenThisRound [
 	| hero |
 	
@@ -68,6 +90,15 @@ HeroTest >> testDx [
 	| hero |
 	hero := MSHero new dx: 12.
 	self assert: hero dx equals: 12.
+]
+
+{ #category : #tests }
+HeroTest >> testIsAlive [
+	| hero |
+	hero := MSHero name: 'Fred' st: 12 dx: 12 weapon: MSWeapon broadsword  armor: MSArmor none shield: MSShield none.
+	self assert: hero isAlive.
+	hero takeHits: 12.
+	self deny: hero isAlive
 ]
 
 { #category : #tests }
