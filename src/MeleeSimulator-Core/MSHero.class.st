@@ -35,7 +35,15 @@ MSHero class >> name: heroName st: heroSt dx: heroDx weapon: heroWeapon armor: h
 
 { #category : #accessing }
 MSHero >> adjDx [
-	^ dx - (armor dxAdjustment) 
+	^ dx - armor dxAdjustment - shield dxAdjustment
+		-
+			(hasDxPenaltyFromInjuries
+				ifTrue: [ 2 ]
+				ifFalse: [ 0 ])
+		-
+			(self isStrengthLowPenalty
+				ifTrue: [ 3 ]
+				ifFalse: [ 0 ])
 ]
 
 { #category : #accessing }
@@ -79,6 +87,11 @@ MSHero >> initialize [
 	isCharging := false
 ]
 
+{ #category : #combat }
+MSHero >> isStrengthLowPenalty [
+	^ (st - damageTaken) <= 3
+]
+
 { #category : #accessing }
 MSHero >> name [
 	^ name
@@ -112,6 +125,11 @@ MSHero >> st [
 { #category : #accessing }
 MSHero >> st: anInteger [ 
 	st := anInteger
+]
+
+{ #category : #combat }
+MSHero >> sufferingDexPenalty [
+	^ (damageTakenThisRound >= 5) | isRecovering 
 ]
 
 { #category : #combat }
