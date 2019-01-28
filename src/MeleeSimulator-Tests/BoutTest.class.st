@@ -5,6 +5,17 @@ Class {
 }
 
 { #category : #tests }
+BoutTest >> testFightToTheDeath [
+	| hero1 hero2 bout winner |
+	hero1 := MSHero name: 'H1' st: 12 dx: 12 weapon: MSWeapon broadsword armor: MSArmor none shield: MSShield none.
+	hero2 := MSHero name: 'H2' st: 12 dx: 12 weapon: MSWeapon broadsword armor: MSArmor none shield: MSShield none.
+	bout := MSBout hero1: hero1 hero2: hero2 poleCharge: false defendPoleCharge: false.
+	winner := bout fightToTheDeath.
+	self assert: (winner = hero1) | (winner = hero2) | (winner = nil).
+	
+]
+
+{ #category : #tests }
 BoutTest >> testIsAutomaticHit [
 	| bout |
 	bout := MSBout new.

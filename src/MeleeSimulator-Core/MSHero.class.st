@@ -46,6 +46,12 @@ MSHero >> adjDx [
 				ifFalse: [ 0 ])
 ]
 
+{ #category : #combat }
+MSHero >> adjSt [
+	^ (st - damageTaken) max: 0
+
+]
+
 { #category : #accessing }
 MSHero >> armor [
 	^ armor
@@ -165,6 +171,11 @@ MSHero >> isPickingUpWeapon [
 	^ isPickingUpWeapon
 ]
 
+{ #category : #combat }
+MSHero >> isProne [
+	^ isPickingUpWeapon 
+]
+
 { #category : #accessing }
 MSHero >> isRecovering [
 	^ isRecovering
@@ -243,6 +254,11 @@ MSHero >> st [
 { #category : #accessing }
 MSHero >> st: anInteger [ 
 	st := anInteger
+]
+
+{ #category : #'as yet unclassified' }
+MSHero >> standUp [
+	isStandingUp := true.
 ]
 
 { #category : #combat }

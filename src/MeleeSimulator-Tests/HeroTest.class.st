@@ -22,6 +22,18 @@ HeroTest >> testAdjDx [
 ]
 
 { #category : #tests }
+HeroTest >> testAdjSt [
+	| hero |
+	hero := MSHero new st:12; dx: 12.
+	self assert: hero adjSt equals: 12.
+	hero takeHits: 7.
+	self assert: hero adjSt equals: 5.
+	hero takeHits: 6.
+	self assert: hero adjSt equals: 0.
+
+]
+
+{ #category : #tests }
 HeroTest >> testArmor [
 	| hero |
 	hero := MSHero new armor: MSArmor leather.
@@ -145,6 +157,10 @@ HeroTest >> testNewRound [
 	hero newRound.
 	self assert: hero readiedWeapon equals: MSWeapon dagger. 
 	
+	"Advance round doesn't change anything"
+	hero := MSHero name: 'Joe' st: 12 dx: 12 weapon: MSWeapon dagger armor: MSArmor none shield: MSShield none.
+	hero newRound.
+	self assert: hero readiedWeapon equals: MSWeapon dagger.
 ]
 
 { #category : #tests }

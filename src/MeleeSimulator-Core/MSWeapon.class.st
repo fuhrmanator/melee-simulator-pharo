@@ -332,6 +332,35 @@ MSWeapon >> dice: anObject [
 	dice := anObject
 ]
 
+{ #category : #'as yet unclassified' }
+MSWeapon >> doDamage [
+	| damage |
+	self
+		crLog:
+			'Rolling for weapon doing' , dice asString , 'd'
+				,
+					(modifier > 0
+						ifTrue: [ '+' ]
+						ifFalse: [ '' ])
+				,
+					(modifier = 0
+						ifTrue: [ '' ]
+						ifFalse: [ modifier asString ]) , ' damage.'.
+	damage := 0.
+	dice timesRepeat: [ damage := damage + MSDie roll ].
+	damage := damage + modifier.
+	modifier ~= 0
+		ifTrue: [ self
+				crLog:
+					(modifier > 0
+						ifTrue: [ '+' ]
+						ifFalse: [ '' ]) , modifier asString ].
+	"Strange smalltalk semantics"
+	damage := damage max: 0.
+	self crLog: 'Total weapon damage: ' , damage asString.
+	^ damage
+]
+
 { #category : #accessing }
 MSWeapon >> isMissile [
 	^ isMissile
