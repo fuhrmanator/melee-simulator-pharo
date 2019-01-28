@@ -63,6 +63,12 @@ MSHero >> armor: aMSArmor [
 ]
 
 { #category : #combat }
+MSHero >> breakWeapon [
+	readiedWeapon := MSWeapon none.
+	droppedWeapon := MSWeapon none.
+]
+
+{ #category : #combat }
 MSHero >> canDoDamage [
 	"Is conscious and has a weapon (or dropped one) that can do damage"
 	^ self isConscious
@@ -117,7 +123,7 @@ MSHero >> initialize [
 	st := 0.
 	dx := 0.
 	readiedWeapon := MSWeapon none.
-	droppedWeapon := nil.
+	droppedWeapon := MSWeapon none.
 	armor := MSArmor none.
 	shield := MSShield none.
 	isKnockedDown := false.

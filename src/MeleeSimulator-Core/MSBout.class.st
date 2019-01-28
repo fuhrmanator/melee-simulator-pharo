@@ -41,12 +41,12 @@ MSBout >> fightToTheDeath [
 			self crLog: '--->Round ' , round asString.
 			self
 				crLog:
-					'Hero 1: ' , hero1 name , ', ST: ' , hero1 st asString , '(' , hero1 adjSt asString 
-						, ')'.
+					'Hero 1: ' , hero1 name , ', ST: ' , hero1 st asString , '('
+						, hero1 adjSt asString , ')'.
 			self
 				crLog:
-					'Hero 2: ' , hero2 name , ', ST: ' , hero2 st asString , '(' , hero2 adjSt asString 
-						, ')'.
+					'Hero 2: ' , hero2 name , ', ST: ' , hero2 st asString , '('
+						, hero2 adjSt asString , ')'.
 			firstAttacker := hero1.
 			secondAttacker := hero2.
 			hero1 adjDx < hero2 adjDx
@@ -60,13 +60,13 @@ MSBout >> fightToTheDeath [
 									secondAttacker := hero1 ] ] ].
 			self
 				crLog:
-					firstAttacker name , ' (adjDx = ' , firstAttacker adjDx asString 
+					firstAttacker name , ' (adjDx = ' , firstAttacker adjDx asString
 						, ') attacks before ' , secondAttacker name , ' (adjDx = '
 						, secondAttacker adjDx asString , ')'.
 			hero1
-				isCharging: isPoleCharge & (round = 1) & (hero1 readiedWeapon isPole).
+				isCharging: isPoleCharge & (round = 1) & hero1 readiedWeapon isPole.
 			hero2
-				isCharging: isPoleCharge & (round = 1) & (hero2 readiedWeapon isPole).
+				isCharging: isPoleCharge & (round = 1) & hero2 readiedWeapon isPole.
 			self
 				tryDefendingAttacker: hero1
 				defender: hero2
@@ -80,7 +80,16 @@ MSBout >> fightToTheDeath [
 			self tryPickUp: firstAttacker.
 			self tryPickUp: secondAttacker.
 			self tryAttackFor: firstAttacker on: secondAttacker.
-			self tryAttackFor: secondAttacker on: firstAttacker ]
+			self tryAttackFor: secondAttacker on: firstAttacker ].
+	winner := nil.
+	hero1 canDoDamage
+		ifTrue: [ winner := hero1 ]
+		ifFalse: [ hero2 canDoDamage
+				ifTrue: [ winner := hero2 ] ].
+	winner isNotNil
+		ifTrue: [ self crLog: '-------> The winner of this bout is ' , winner name ]
+		ifFalse: [ self crLog: '-------> This bout was a TIE!' ].
+	^ winner
 ]
 
 { #category : #accessing }
