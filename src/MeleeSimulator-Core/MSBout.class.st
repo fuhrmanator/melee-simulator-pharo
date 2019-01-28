@@ -191,7 +191,7 @@ MSBout >> resolveAttackFor: attacker attacking: attackee withRoll: roll using: n
 						ifFalse: [ attacker adjDx asString ]).
 
 	"A hit is a roll that is NOT an automatic miss AND (below or equal to the attacker's adjDex OR and automatic hit)"
-	(self isAutomaticMissForRoll: roll forDice: numDice)
+	(self isAutomaticMissForRoll: roll forDice: numDice) not
 		&
 			(roll <= (attacker adjDx + facingBonus) | (self
 				isAutomaticHitForRoll: roll
@@ -243,7 +243,7 @@ MSBout >> tryAttackFor: attacker on: attackee [
 				attacker readiedWeapon ~= MSWeapon none ifTrue: [ 
 					attacker isCharging ifTrue: [ self crLog: 'He''s charging with a pole weapon (double damage if he hits).' ].
 					numDice := (attackee isDefending ifTrue: [4] ifFalse: [3]).
-					self crLog: 'Rolling to hit on ', numDice asString , 'dice.'.
+					self crLog: 'Rolling to hit on ', numDice asString , ' dice.'.
 					roll := MSDie rollDice: numDice.
 					self resolveAttackFor: attacker attacking: attackee withRoll: roll using: numDice. 
 					 ] ifFalse: [ self crLog: 'But he''s not able to attack because he has no readied weapon.' ]

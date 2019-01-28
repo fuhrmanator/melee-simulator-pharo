@@ -337,7 +337,7 @@ MSWeapon >> doDamage [
 	| damage |
 	self
 		crLog:
-			'Rolling for weapon doing' , dice asString , 'd'
+			'Rolling for weapon doing ' , dice asString , 'd'
 				,
 					(modifier > 0
 						ifTrue: [ '+' ]

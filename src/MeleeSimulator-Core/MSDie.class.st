@@ -6,23 +6,26 @@ Class {
 
 { #category : #utility }
 MSDie class >> roll [
-	^ 6 atRandom.
+	| roll |
+	roll := 6 atRandom.
+	self crLog: 'Die roll: ' , roll asString.
+	^ roll
 ]
 
-{ #category : #utilities }
+{ #category : #utility }
 MSDie class >> rollDice: anInteger [
 	| total |
 	total := 0.
-	1 to: anInteger do: [ :i | total := total + 6 atRandom ].
+	1 to: anInteger do: [ :i | total := total + self roll ].
 	^ total
 ]
 
-{ #category : #utilities }
+{ #category : #utility }
 MSDie class >> rollFourDice [
 	^ self rollDice: 4
 ]
 
-{ #category : #utilities }
+{ #category : #utility }
 MSDie class >> rollThreeDice [
 	^ self rollDice: 3
 ]
