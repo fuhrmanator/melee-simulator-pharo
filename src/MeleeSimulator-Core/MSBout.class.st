@@ -234,9 +234,24 @@ MSBout >> resolveAttackFor: attacker attacking: attackee withRoll: roll using: n
 ]
 
 { #category : #'as yet unclassified' }
+MSBout >> showStatusOfAttacker: attacker attacking: attackee [ 
+	self crLog: attacker name , ' gets his turn to attack.'.
+	attacker hasDxPenaltyFromInjuries ifTrue: [ self crLog: 'Attacker has -2 DX penalty due to having taken ' , attacker damageTakenThisRound asString , ' hits this round.'].
+	attacker isCharging ifTrue: [ self crLog: 'Attacker is charging this round.'].
+	attacker isDefending ifTrue: [ self crLog: 'Attacker is defending this round.'].
+	attacker isPickingUpWeapon ifTrue: [ self crLog: 'Attacker is picking up his weapon this round.'].
+	attacker isStandingUp ifTrue: [ self crLog: 'Attacker is standing up this round.'].
+	attacker isKnockedDown ifTrue: [ self crLog: 'Attacker is knocked down this round.'].
+	
+	attackee isProne ifTrue: [ self crLog: 'Defender is prone (knocked down?) giving the attacker +4 DX adjustment.'].
+	attackee isDefending ifTrue: [ self crLog: 'Defender is defending making the attacker roll 4 dice.'].
+
+]
+
+{ #category : #'as yet unclassified' }
 MSBout >> tryAttackFor: attacker on: attackee [
 	| numDice roll |
-	self crLog: attacker name , ' gets his turn to attack.'.
+	self showStatusOfAttacker: attacker attacking: attackee.
 	attacker isDefending ifFalse: [ 
 		attacker isConscious ifTrue: [ 
 			attacker isKnockedDown ifFalse: [ 

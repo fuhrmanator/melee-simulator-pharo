@@ -14,12 +14,12 @@ Class {
 
 { #category : #'as yet unclassified' }
 MSShield class >> largeShield [
-	^ shieldRegistry at: #largeShield
+	^ self shieldRegistry at: #largeShield
 ]
 
 { #category : #'as yet unclassified' }
 MSShield class >> none [
-	^ shieldRegistry at: #none
+	^ self shieldRegistry at: #none
 ]
 
 { #category : #initialization }
@@ -48,7 +48,7 @@ MSShield class >> shieldRegistry [
 
 { #category : #'as yet unclassified' }
 MSShield class >> smallShield [
-	^ shieldRegistry at: #smallShield
+	^ self shieldRegistry at: #smallShield
 ]
 
 { #category : #accessing }
