@@ -47,6 +47,21 @@ HeroTest >> testArmor [
 ]
 
 { #category : #tests }
+HeroTest >> testBreakWeapon [
+	| hero weapon |
+	hero := MSHero new.
+	weapon := MSWeapon morningstar.
+	hero readiedWeapon: weapon.
+	self assert: hero readiedWeapon equals: weapon.
+	
+	hero breakWeapon.
+	self assert: hero readiedWeapon equals: MSWeapon none.
+	self assert: hero droppedWeapon equals: MSWeapon none.
+	
+
+]
+
+{ #category : #tests }
 HeroTest >> testCanDoDamage [
 	| hero |
 	hero := MSHero name: 'Fred' st: 12 dx: 12 weapon: MSWeapon broadsword  armor: MSArmor none shield: MSShield none.
