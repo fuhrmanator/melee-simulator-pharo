@@ -336,7 +336,7 @@ MSWeapon >> dice: anObject [
 MSWeapon >> doDamage [
 	| damage |
 	self
-		crLog:
+		crTrace:
 			'Rolling for weapon doing ' , dice asString , 'd'
 				,
 					(modifier > 0
@@ -351,13 +351,13 @@ MSWeapon >> doDamage [
 	damage := damage + modifier.
 	modifier ~= 0
 		ifTrue: [ self
-				crLog:
+				crTrace:
 					(modifier > 0
 						ifTrue: [ '+' ]
 						ifFalse: [ '' ]) , modifier asString ].
 	"Strange smalltalk semantics"
 	damage := damage max: 0.
-	self crLog: 'Total weapon damage: ' , damage asString.
+	self crTrace: 'Total weapon damage: ' , damage asString.
 	^ damage
 ]
 

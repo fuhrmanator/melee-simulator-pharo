@@ -8,7 +8,7 @@ Class {
 MSDie class >> roll [
 	| roll |
 	roll := 6 atRandom.
-	self crLog: 'Die roll: ' , roll asString.
+	self crTrace: 'Die roll: ' , roll asString.
 	^ roll
 ]
 

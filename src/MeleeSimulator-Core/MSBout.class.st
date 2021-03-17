@@ -38,13 +38,13 @@ MSBout >> fightToTheDeath [
 		whileTrue: [ round := round + 1.
 			hero1 newRound.
 			hero2 newRound.
-			self crLog: '--->Round ' , round asString.
+			self crTrace: '--->Round ' , round asString.
 			self
-				crLog:
+				crTrace:
 					'Hero 1: ' , hero1 name , ', ST: ' , hero1 st asString , '('
 						, hero1 adjSt asString , ')'.
 			self
-				crLog:
+				crTrace:
 					'Hero 2: ' , hero2 name , ', ST: ' , hero2 st asString , '('
 						, hero2 adjSt asString , ')'.
 			firstAttacker := hero1.
@@ -54,12 +54,12 @@ MSBout >> fightToTheDeath [
 					secondAttacker := hero1 ]
 				ifFalse: [ hero1 adjDx = hero2 adjDx
 						ifTrue: [ self
-								crLog: 'Adjusted dexterities are equal; rolling to decide attack order'.
+								crTrace: 'Adjusted dexterities are equal; rolling to decide attack order'.
 							2 atRandom < 2
 								ifTrue: [ firstAttacker := hero2.
 									secondAttacker := hero1 ] ] ].
 			self
-				crLog:
+				crTrace:
 					firstAttacker name , ' (adjDx = ' , firstAttacker adjDx asString
 						, ') attacks before ' , secondAttacker name , ' (adjDx = '
 						, secondAttacker adjDx asString , ')'.
@@ -87,7 +87,7 @@ MSBout >> fightToTheDeath [
 		ifFalse: [ hero2 canDoDamage
 				ifTrue: [ winner := hero2 ] ].
 	winner isNotNil
-		ifTrue: [ self crLog: '-------> The winner of this bout is ' , winner name ]
+		ifTrue: [ self crTrace: '-------> The winner of this bout is ' , winner name ]
 		ifFalse: [ self crLog: '-------> This bout was a TIE!' ].
 	^ winner
 ]
@@ -181,7 +181,7 @@ MSBout >> resolveAttackFor: attacker attacking: attackee withRoll: roll using: n
 		ifTrue: [ 4 ]
 		ifFalse: [ 0 ].
 	self
-		crLog:
+		crTrace:
 			attacker name , ' rolled ' , roll asString , ' with adjDex '
 				,
 					(attackee isProne
@@ -193,10 +193,9 @@ MSBout >> resolveAttackFor: attacker attacking: attackee withRoll: roll using: n
 	"A hit is a roll that is NOT an automatic miss AND (below or equal to the attacker's adjDex OR and automatic hit)"
 	(self isAutomaticMissForRoll: roll forDice: numDice) not
 		&
-			(roll <= (attacker adjDx + facingBonus) | (self
-				isAutomaticHitForRoll: roll
-				forDice: numDice))
-		ifTrue: [ self crLog: 'Hit! '.
+			(roll <= (attacker adjDx + facingBonus)
+				| (self isAutomaticHitForRoll: roll forDice: numDice))
+		ifTrue: [ self crTrace: 'Hit! '.
 			hits := attacker readiedWeapon doDamage.
 			attacker isCharging & attacker readiedWeapon isPole
 				ifTrue: [ self crLog: 'Pole weapon charge does double damage!'.
@@ -217,12 +216,12 @@ MSBout >> resolveAttackFor: attacker attacking: attackee withRoll: roll using: n
 							criticalHits := criticalHits + 1.
 							hits := hits * 3 ] ].
 			self
-				crLog:
+				crTrace:
 					'Total damage done by ' , attacker name , ': ' , hits asString
 						, ' hits.'.
 			attackee takeHits: hits ]
 		ifFalse: [ "It's a miss"
-			self crLog: 'Missed. '.
+			self crTrace: 'Missed. '.
 			(self isDroppedWeaponForRoll: roll forDice: numDice)
 				ifTrue: [ self crLog: 'Dropped weapon! '.
 					criticalMisses := criticalMisses + 1.
@@ -234,38 +233,66 @@ MSBout >> resolveAttackFor: attacker attacking: attackee withRoll: roll using: n
 ]
 
 { #category : #'as yet unclassified' }
-MSBout >> showStatusOfAttacker: attacker attacking: attackee [ 
-	self crLog: attacker name , ' gets his turn to attack.'.
-	attacker hasDxPenaltyFromInjuries ifTrue: [ self crLog: 'Attacker has -2 DX penalty due to having taken ' , attacker damageTakenThisRound asString , ' hits this round.'].
-	attacker isCharging ifTrue: [ self crLog: 'Attacker is charging this round.'].
-	attacker isDefending ifTrue: [ self crLog: 'Attacker is defending this round.'].
-	attacker isPickingUpWeapon ifTrue: [ self crLog: 'Attacker is picking up his weapon this round.'].
-	attacker isStandingUp ifTrue: [ self crLog: 'Attacker is standing up this round.'].
-	attacker isKnockedDown ifTrue: [ self crLog: 'Attacker is knocked down this round.'].
-	
-	attackee isProne ifTrue: [ self crLog: 'Defender is prone (knocked down?) giving the attacker +4 DX adjustment.'].
-	attackee isDefending ifTrue: [ self crLog: 'Defender is defending making the attacker roll 4 dice.'].
-
+MSBout >> showStatusOfAttacker: attacker attacking: attackee [
+	self crTrace: attacker name , ' gets his turn to attack.'.
+	attacker hasDxPenaltyFromInjuries
+		ifTrue: [ self
+				crTrace:
+					'Attacker has -2 DX penalty due to having taken '
+						, attacker damageTakenThisRound asString , ' hits this round.' ].
+	attacker isCharging
+		ifTrue: [ self crLog: 'Attacker is charging this round.' ].
+	attacker isDefending
+		ifTrue: [ self crLog: 'Attacker is defending this round.' ].
+	attacker isPickingUpWeapon
+		ifTrue: [ self crLog: 'Attacker is picking up his weapon this round.' ].
+	attacker isStandingUp
+		ifTrue: [ self crTrace: 'Attacker is standing up this round.' ].
+	attacker isKnockedDown
+		ifTrue: [ self crTrace: 'Attacker is knocked down this round.' ].
+	attackee isProne
+		ifTrue: [ self
+				crLog:
+					'Defender is prone (knocked down?) giving the attacker +4 DX adjustment.' ].
+	attackee isDefending
+		ifTrue:
+			[ self crLog: 'Defender is defending making the attacker roll 4 dice.' ]
 ]
 
 { #category : #'as yet unclassified' }
 MSBout >> tryAttackFor: attacker on: attackee [
 	| numDice roll |
 	self showStatusOfAttacker: attacker attacking: attackee.
-	attacker isDefending ifFalse: [ 
-		attacker isConscious ifTrue: [ 
-			attacker isKnockedDown ifFalse: [ 
-				attacker readiedWeapon ~= MSWeapon none ifTrue: [ 
-					attacker isCharging ifTrue: [ self crLog: 'He''s charging with a pole weapon (double damage if he hits).' ].
-					numDice := (attackee isDefending ifTrue: [4] ifFalse: [3]).
-					self crLog: 'Rolling to hit on ', numDice asString , ' dice.'.
-					roll := MSDie rollDice: numDice.
-					self resolveAttackFor: attacker attacking: attackee withRoll: roll using: numDice. 
-					 ] ifFalse: [ self crLog: 'But he''s not able to attack because he has no readied weapon.' ]
-				 ] ifTrue: [ self crLog: 'But he''s not able to attack because he was knocked down.' ]
-			 ] ifFalse: [ self crLog: 'But he''s not able to attack because he''s ', (attacker isAlive ifTrue: ['unconscious.'] ifFalse: ['dead.'] ) ] 
-		 ] ifTrue: [ self crLog: 'But he''s defending.' ]
-
+	attacker isDefending
+		ifFalse: [ attacker isConscious
+				ifTrue: [ attacker isKnockedDown
+						ifFalse: [ attacker readiedWeapon ~= MSWeapon none
+								ifTrue: [ attacker isCharging
+										ifTrue: [ self
+												crLog: 'He''s charging with a pole weapon (double damage if he hits).' ].
+									numDice := attackee isDefending
+										ifTrue: [ 4 ]
+										ifFalse: [ 3 ].
+									self
+										crTrace: 'Rolling to hit on ' , numDice asString , ' dice.'.
+									roll := MSDie rollDice: numDice.
+									self
+										resolveAttackFor: attacker
+										attacking: attackee
+										withRoll: roll
+										using: numDice ]
+								ifFalse: [ self
+										crLog: 'But he''s not able to attack because he has no readied weapon.' ] ]
+						ifTrue: [ self
+								crTrace: 'But he''s not able to attack because he was knocked down.' ] ]
+				ifFalse: [ self
+						crTrace:
+							'But he''s not able to attack because he''s '
+								,
+									(attacker isAlive
+										ifTrue: [ 'unconscious.' ]
+										ifFalse: [ 'dead.' ]) ] ]
+		ifTrue: [ self crLog: 'But he''s defending.' ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -305,7 +332,7 @@ MSBout >> tryPickUp: hero [
 
 { #category : #'as yet unclassified' }
 MSBout >> tryStandUp: hero [
-	hero isKnockedDown ifTrue: [ hero standUp.
-		self crLog: hero name , ' is standing up this turn.'.
-		 ]
+	hero isKnockedDown
+		ifTrue: [ hero standUp.
+			self crTrace: hero name , ' is standing up this turn.' ]
 ]
