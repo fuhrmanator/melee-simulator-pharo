@@ -23,6 +23,17 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+MSHero class >> myrmidon [
+	^ self new
+		name: 'Myrmidon';
+		st: 12;
+		dx: 12;
+		readiedWeapon: MSWeapon broadsword;
+		armor: MSArmor none;
+		shield: MSShield smallShield
+]
+
+{ #category : #'as yet unclassified' }
 MSHero class >> name: heroName st: heroSt dx: heroDx weapon: heroWeapon armor: heroArmor shield: heroShield [
 	^ self new
 		name: heroName;

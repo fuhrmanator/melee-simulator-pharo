@@ -129,6 +129,17 @@ HeroTest >> testIsAlive [
 ]
 
 { #category : #tests }
+HeroTest >> testMyrmidon [
+	| hero |
+	hero := MSHero myrmidon.
+	self assert: hero readiedWeapon equals: MSWeapon broadsword.
+	self assert: hero st equals: 12.
+	self assert: hero dx equals: 12.
+	self assert: hero armor equals: MSArmor none.
+	self assert: hero shield equals: MSShield smallShield.
+]
+
+{ #category : #tests }
 HeroTest >> testName [
 	| hero |
 	hero := MSHero new name: 'Trevor'.
