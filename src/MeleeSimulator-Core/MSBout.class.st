@@ -26,8 +26,10 @@ MSBout class >> hero1: aMSHero hero2: aMSHero2 poleCharge: boolean1 defendPoleCh
 ]
 
 { #category : #accessing }
-MSBout >> defendPoleCharge: boolean [ 
-	isDefendOnPoleCharge := boolean.
+MSBout >> defendPoleCharge: boolean [
+	"should heroes defend when a pole charge happens?"
+
+	isDefendOnPoleCharge := boolean
 ]
 
 { #category : #'as yet unclassified' }
@@ -105,12 +107,14 @@ MSBout >> hero2: aMSHero [
 { #category : #initialization }
 MSBout >> initialize [
 	super initialize.
-	hero1 := nil.
-	hero2 := nil.
 	round := 0.
 	winHero1 := 0.
 	winHero2 := 0.
-	criticalMisses :=0. criticalHits:=0.  isPoleCharge:=false.  isDefendOnPoleCharge:=false.  heroMap := Dictionary new.
+	criticalMisses := 0.
+	criticalHits := 0.
+	isPoleCharge := false.
+	isDefendOnPoleCharge := false.
+	heroMap := Dictionary new
 ]
 
 { #category : #'as yet unclassified' }
@@ -170,8 +174,10 @@ MSBout >> isTripleDamageForRoll: rollTotal forDice: nDice [
 ]
 
 { #category : #accessing }
-MSBout >> poleCharge: boolean [ 
-	isPoleCharge := boolean.
+MSBout >> poleCharge: boolean [
+	"do heroes charge on first attach with pole weapons?"
+
+	isPoleCharge := boolean
 ]
 
 { #category : #bloodyhell }
