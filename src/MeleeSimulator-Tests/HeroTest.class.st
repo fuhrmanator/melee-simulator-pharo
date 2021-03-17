@@ -216,15 +216,25 @@ HeroTest >> testSt [
 { #category : #tests }
 HeroTest >> testTakeHits [
 	| hero |
-	
-	hero := MSHero name: 'Joe' st: 12 dx: 12 weapon: MSWeapon none armor: MSArmor leather shield: MSShield none.
+	hero := MSHero
+		name: 'Joe'
+		st: 12
+		dx: 12
+		weapon: MSWeapon none
+		armor: MSArmor leather
+		shield: MSShield none.
 	hero takeHits: 2.
 	self assert: hero damageTaken equals: 0.
 	hero takeHits: 4.
 	self assert: hero damageTaken equals: 2.
-	hero armor: MSArmor none; takeHits: 4.
+	"Drop armor"
+	hero
+		armor: MSArmor none;
+		takeHits: 4.
 	self assert: hero damageTaken equals: 6.
-
+	"Ready a Shield"
+	hero shield: MSShield smallShield; takeHits: 3.
+	self assert: hero damageTaken equals: 8.
 ]
 
 { #category : #tests }

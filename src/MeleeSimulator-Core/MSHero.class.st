@@ -299,7 +299,7 @@ MSHero >> takeHits: anInteger [
 	| armorPoints damageDone |
 	armorPoints := armor hitsStopped + shield hitsStopped.
 	damageDone := anInteger - armorPoints.
-	damageDone < 0 ifTrue: [ damageDone := 0 ].
-	
-	self takeDamage: damageDone
+	damageDone := damageDone max: 0.
+	self takeDamage: damageDone.
+	^ damageDone
 ]

@@ -225,7 +225,8 @@ MSBout >> resolveAttackFor: attacker attacking: attackee withRoll: roll using: n
 				crTrace:
 					'Total damage done by ' , attacker name , ': ' , hits asString
 						, ' hits.'.
-			attackee takeHits: hits ]
+			self
+				crTrace: attackee name , ' takes ' , (attackee takeHits: hits) asString , ' hits.' ]
 		ifFalse: [ "It's a miss"
 			self crTrace: 'Missed. '.
 			(self isDroppedWeaponForRoll: roll forDice: numDice)
