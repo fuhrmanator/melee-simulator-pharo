@@ -25,6 +25,13 @@ MSBout class >> hero1: aMSHero hero2: aMSHero2 poleCharge: boolean1 defendPoleCh
 		defendPoleCharge: boolean2
 ]
 
+{ #category : #'as yet unclassified' }
+MSBout >> attackeeFacingBonus: attackee [
+	^ attackee isProne
+		ifTrue: [ 4 ]
+		ifFalse: [ 0 ]
+]
+
 { #category : #accessing }
 MSBout >> defendPoleCharge: boolean [
 	"should heroes defend when a pole charge happens?"
@@ -118,18 +125,24 @@ MSBout >> initialize [
 ]
 
 { #category : #'as yet unclassified' }
-MSBout >> isAutomaticHitForRoll: rollTotal forDice: nDice [ 
-	nDice = 3 ifTrue: [ ^ rollTotal <= 5 ].
+MSBout >> isAutomaticHitForRoll: roll [
+	roll numberOfDice = 3
+		ifTrue: [ ^ roll total <= 5 ].
 	"4 dice roll is assumed to be defending, so no automatic hits according to melee rules"
-	nDice = 4 ifTrue: [ ^ false ].
-	self error: 'Unsupported number of dice: ', nDice asString
+	roll numberOfDice = 4
+		ifTrue: [ ^ false ].
+	self
+		error: 'Unsupported number of dice: ' , roll numberOfDice asString
 ]
 
 { #category : #'as yet unclassified' }
-MSBout >> isAutomaticMissForRoll: rollTotal forDice: nDice [ 
-	nDice = 3 ifTrue: [ ^ rollTotal >= 16 ].
-	nDice = 4 ifTrue: [ ^ rollTotal >= 20 ].
-	self error: 'Unsupported number of dice: ', nDice asString
+MSBout >> isAutomaticMissForRoll: roll [
+	roll numberOfDice = 3
+		ifTrue: [ ^ roll total >= 16 ].
+	roll numberOfDice = 4
+		ifTrue: [ ^ roll total >= 20 ].
+	self
+		error: 'Unsupported number of dice: ' , roll numberOfDice asString
 ]
 
 { #category : #'as yet unclassified' }
@@ -144,33 +157,45 @@ MSBout >> isBoutUnfinished [
 ]
 
 { #category : #'as yet unclassified' }
-MSBout >> isBrokenWeaponForRoll: rollTotal forDice: nDice [ 
-	nDice = 3 ifTrue: [ ^ rollTotal = 18 ].
-	nDice = 4 ifTrue: [ ^ (rollTotal = 23) | (rollTotal = 24) ].
-	self error: 'Unsupported number of dice: ', nDice asString
+MSBout >> isBrokenWeaponForRoll: roll [
+	roll numberOfDice = 3
+		ifTrue: [ ^ roll total = 18 ].
+	roll numberOfDice = 4
+		ifTrue: [ ^ roll total = 23 | (roll total = 24) ].
+	self
+		error: 'Unsupported number of dice: ' , roll numberOfDice asString
 ]
 
 { #category : #'as yet unclassified' }
-MSBout >> isDoubleDamageForRoll: rollTotal forDice: nDice [ 
-	nDice = 3 ifTrue: [ ^ rollTotal = 4 ].
+MSBout >> isDoubleDamageForRoll: roll [
+	roll numberOfDice = 3
+		ifTrue: [ ^ roll total = 4 ].
 	"4 dice roll is assumed to be defending, so no automatic hits according to melee rules"
-	nDice = 4 ifTrue: [ ^ false ].
-	self error: 'Unsupported number of dice: ', nDice asString
+	roll numberOfDice = 4
+		ifTrue: [ ^ false ].
+	self
+		error: 'Unsupported number of dice: ' , roll numberOfDice asString
 ]
 
 { #category : #'as yet unclassified' }
-MSBout >> isDroppedWeaponForRoll: rollTotal forDice: nDice [ 
-	nDice = 3 ifTrue: [ ^ rollTotal = 17 ].
-	nDice = 4 ifTrue: [ ^ (rollTotal = 21) | (rollTotal = 22) ].
-	self error: 'Unsupported number of dice: ', nDice asString
+MSBout >> isDroppedWeaponForRoll: roll [
+	roll numberOfDice = 3
+		ifTrue: [ ^ roll total = 17 ].
+	roll numberOfDice = 4
+		ifTrue: [ ^ roll total = 21 | (roll total = 22) ].
+	self
+		error: 'Unsupported number of dice: ' , roll numberOfDice asString
 ]
 
 { #category : #'as yet unclassified' }
-MSBout >> isTripleDamageForRoll: rollTotal forDice: nDice [ 
-	nDice = 3 ifTrue: [ ^ rollTotal = 3 ].
+MSBout >> isTripleDamageForRoll: roll [
+	roll numberOfDice = 3
+		ifTrue: [ ^ roll total = 3 ].
 	"4 dice roll is assumed to be defending, so no automatic hits according to melee rules"
-	nDice = 4 ifTrue: [ ^ false ].
-	self error: 'Unsupported number of dice: ', nDice asString
+	roll numberOfDice = 4
+		ifTrue: [ ^ false ].
+	self
+		error: 'Unsupported number of dice: ' , roll numberOfDice asString
 ]
 
 { #category : #accessing }
@@ -181,14 +206,13 @@ MSBout >> poleCharge: boolean [
 ]
 
 { #category : #bloodyhell }
-MSBout >> resolveAttackFor: attacker attacking: attackee withRoll: roll using: numDice [
-	| facingBonus hits |
-	facingBonus := attacker isProne
-		ifTrue: [ 4 ]
-		ifFalse: [ 0 ].
+MSBout >> resolveAttackFor: attacker attacking: attackee withRoll: roll [
+	| hits facingBonus numDice |
+	numDice := roll numberOfDice.
+	facingBonus := self attackeeFacingBonus: attackee.
 	self
 		crTrace:
-			attacker name , ' rolled ' , roll asString , ' with adjDex '
+			attacker name , ' rolled ' , roll total asString , ' with adjDex '
 				,
 					(attackee isProne
 						ifTrue: [ (attacker adjDx + facingBonus) asString , ' ('
@@ -197,24 +221,24 @@ MSBout >> resolveAttackFor: attacker attacking: attackee withRoll: roll using: n
 						ifFalse: [ attacker adjDx asString ]).
 
 	"A hit is a roll that is NOT an automatic miss AND (below or equal to the attacker's adjDex OR and automatic hit)"
-	(self isAutomaticMissForRoll: roll forDice: numDice) not
+	(self isAutomaticMissForRoll: roll) not
 		&
-			(roll <= (attacker adjDx + facingBonus)
-				| (self isAutomaticHitForRoll: roll forDice: numDice))
+			(roll total <= (attacker adjDx + facingBonus)
+				| (self isAutomaticHitForRoll: roll))
 		ifTrue: [ self crTrace: 'Hit! '.
 			hits := attacker readiedWeapon doDamage.
 			attacker isCharging & attacker readiedWeapon isPole
 				ifTrue: [ self crLog: 'Pole weapon charge does double damage!'.
 					criticalHits := criticalHits + 1.
 					hits := hits * 2 ].
-			(self isDoubleDamageForRoll: roll forDice: numDice)
+			(self isDoubleDamageForRoll: roll)
 				ifTrue: [ self
 						crLog:
 							'Double damage! (roll of ' , roll asString , ' on ' , numDice asString
 								, ' dice.)'.
 					criticalHits := criticalHits + 1.
 					hits := hits * 2 ]
-				ifFalse: [ (self isTripleDamageForRoll: roll forDice: numDice)
+				ifFalse: [ (self isTripleDamageForRoll: roll)
 						ifTrue: [ self
 								crLog:
 									'Triple damage! (roll of ' , roll asString , ' on ' , numDice asString
@@ -226,20 +250,22 @@ MSBout >> resolveAttackFor: attacker attacking: attackee withRoll: roll using: n
 					'Total damage done by ' , attacker name , ': ' , hits asString
 						, ' hits.'.
 			self
-				crTrace: attackee name , ' takes ' , (attackee takeHits: hits) asString , ' hits.' ]
+				crTrace:
+					attackee name , ' takes ' , (attackee takeHits: hits) asString
+						, ' hits.' ]
 		ifFalse: [ "It's a miss"
 			self crTrace: 'Missed. '.
-			(self isDroppedWeaponForRoll: roll forDice: numDice)
-				ifTrue: [ self crLog: 'Dropped weapon! '.
+			(self isDroppedWeaponForRoll: roll)
+				ifTrue: [ self crTrace: 'Dropped weapon! '.
 					criticalMisses := criticalMisses + 1.
 					attacker dropWeapon ]
-				ifFalse: [ (self isBrokenWeaponForRoll: roll forDice: numDice)
-						ifTrue: [ self crLog: 'Broke weapon! '.
+				ifFalse: [ (self isBrokenWeaponForRoll: roll)
+						ifTrue: [ self crTrace: 'Broke weapon! '.
 							criticalMisses := criticalMisses + 1.
 							attacker breakWeapon ] ] ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #logging }
 MSBout >> showStatusOfAttacker: attacker attacking: attackee [
 	self crTrace: attacker name , ' gets his turn to attack.'.
 	attacker hasDxPenaltyFromInjuries
@@ -252,14 +278,14 @@ MSBout >> showStatusOfAttacker: attacker attacking: attackee [
 	attacker isDefending
 		ifTrue: [ self crLog: 'Attacker is defending this round.' ].
 	attacker isPickingUpWeapon
-		ifTrue: [ self crLog: 'Attacker is picking up his weapon this round.' ].
+		ifTrue: [ self crTrace: 'Attacker is picking up his weapon this round.' ].
 	attacker isStandingUp
 		ifTrue: [ self crTrace: 'Attacker is standing up this round.' ].
 	attacker isKnockedDown
 		ifTrue: [ self crTrace: 'Attacker is knocked down this round.' ].
 	attackee isProne
 		ifTrue: [ self
-				crLog:
+				crTrace:
 					'Defender is prone (knocked down?) giving the attacker +4 DX adjustment.' ].
 	attackee isDefending
 		ifTrue:
@@ -282,14 +308,13 @@ MSBout >> tryAttackFor: attacker on: attackee [
 										ifFalse: [ 3 ].
 									self
 										crTrace: 'Rolling to hit on ' , numDice asString , ' dice.'.
-									roll := MSDie rollDice: numDice.
+									roll := MSRoll numberOfDice: numDice.
 									self
 										resolveAttackFor: attacker
 										attacking: attackee
-										withRoll: roll
-										using: numDice ]
+										withRoll: roll ]
 								ifFalse: [ self
-										crLog: 'But he''s not able to attack because he has no readied weapon.' ] ]
+										crTrace: 'But he''s not able to attack because he has no readied weapon.' ] ]
 						ifTrue: [ self
 								crTrace: 'But he''s not able to attack because he was knocked down.' ] ]
 				ifFalse: [ self
@@ -326,20 +351,22 @@ MSBout >> tryDefendingAttacker: attacker defender: defender defendOnPoleCharge: 
 									' is defending this turn because attacker is charging with pole weapon.' ] ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MSBout >> tryPickUp: hero [
-	hero droppedWeapon ~= MSWeapon none
-		ifTrue: [ hero pickUpWeapon.
-			self
-				crLog:
-					hero name
-						,
-							' is picking up his weapon this turn (facing rear in all six directions).' ]
+	hero droppedWeapon = MSWeapon none
+		ifTrue: [ ^ self ].
+	hero pickUpWeapon.
+	self
+		crTrace:
+			hero name
+				,
+					' is picking up his weapon this turn (facing rear in all six directions).'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MSBout >> tryStandUp: hero [
 	hero isKnockedDown
-		ifTrue: [ hero standUp.
-			self crTrace: hero name , ' is standing up this turn.' ]
+		ifFalse: [ ^ self ].
+	hero standUp.
+	self crTrace: hero name , ' is standing up this turn.'
 ]

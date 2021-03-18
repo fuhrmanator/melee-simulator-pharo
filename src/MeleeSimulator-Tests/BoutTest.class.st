@@ -5,6 +5,18 @@ Class {
 }
 
 { #category : #tests }
+BoutTest >> testAttackeeFacingBonus [
+	| bout hero |
+	bout := MSBout new.
+	hero := MSHero myrmidon.
+	self assert: (bout attackeeFacingBonus: hero) equals: 0.
+	hero dropWeapon.
+	bout tryPickUp: hero.
+	self assert: (bout attackeeFacingBonus: hero) equals: 4.
+
+]
+
+{ #category : #tests }
 BoutTest >> testFightToTheDeath [
 	| hero1 hero2 bout winner |
 	hero1 := MSHero myrmidon.
@@ -22,105 +34,177 @@ BoutTest >> testFightToTheDeath [
 
 { #category : #tests }
 BoutTest >> testIsAutomaticHit [
-	| bout |
+	| bout roll |
 	bout := MSBout new.
-	self deny: (bout isAutomaticHitForRoll: 7 forDice: 3).
-	self deny: (bout isAutomaticHitForRoll: 6 forDice: 3).
-	self assert: (bout isAutomaticHitForRoll: 5 forDice: 3).
-	self assert: (bout isAutomaticHitForRoll: 4 forDice: 3).
-	self assert: (bout isAutomaticHitForRoll: 3 forDice: 3).
+	roll := MSRoll new diceRolls: #(3 3 1). "7 on three dice"
+	self deny: (bout isAutomaticHitForRoll: roll).
+	roll diceRolls: #(3 2 1). "6 on three dice"
+	self deny: (bout isAutomaticHitForRoll: roll).
+	roll diceRolls: #(3 1 1). "5 on three dice"
+	self assert: (bout isAutomaticHitForRoll: roll).
+	roll diceRolls: #(2 1 1). "4 on three dice"
+	self assert: (bout isAutomaticHitForRoll: roll).
+	roll diceRolls: #(1 1 1). "3 on three dice"
+	self assert: (bout isAutomaticHitForRoll: roll).
 	"No automatic hits for 4-die rolls (assumed defending)"
-	self deny: (bout isAutomaticHitForRoll: 4 forDice: 4).
+	roll diceRolls: #(1 1 1 1). "4 on four dice"
+	self deny: (bout isAutomaticHitForRoll: roll).
 
 ]
 
 { #category : #tests }
 BoutTest >> testIsAutomaticMiss [
-	| bout |
+	| bout roll |
 	bout := MSBout new.
-	self deny: (bout isAutomaticMissForRoll: 14 forDice: 3).
-	self deny: (bout isAutomaticMissForRoll: 15 forDice: 3).
-	self assert: (bout isAutomaticMissForRoll: 16 forDice: 3).
-	self assert: (bout isAutomaticMissForRoll: 17 forDice: 3).
-	self assert: (bout isAutomaticMissForRoll: 18 forDice: 3).
-
-	self deny: (bout isAutomaticMissForRoll: 18 forDice: 4).
-	self deny: (bout isAutomaticMissForRoll: 19 forDice: 4).
-	self assert: (bout isAutomaticMissForRoll: 20 forDice: 4).
-	self assert: (bout isAutomaticMissForRoll: 21 forDice: 4).
-	self assert: (bout isAutomaticMissForRoll: 22 forDice: 4).
-	self assert: (bout isAutomaticMissForRoll: 23 forDice: 4).
-	self assert: (bout isAutomaticMissForRoll: 24 forDice: 4).
-
+	roll := MSRoll new diceRolls: #(5 5 4).	"14 on 3 dice"
+	self deny: (bout isAutomaticMissForRoll: roll).
+	roll := roll diceRolls: #(5 5 5).	"15 on 3 dice"
+	self deny: (bout isAutomaticMissForRoll: roll).
+	roll := roll diceRolls: #(5 5 6).	"16 on 3 dice"
+	self assert: (bout isAutomaticMissForRoll: roll).
+	roll := roll diceRolls: #(5 6 6).	"17 on 3 dice"
+	self assert: (bout isAutomaticMissForRoll: roll).
+	roll := roll diceRolls: #(6 6 6).	"18 on 3 dice"
+	self assert: (bout isAutomaticMissForRoll: roll).
+	roll := roll diceRolls: #(6 6 5 1).	"18 on 4 dice"
+	self deny: (bout isAutomaticMissForRoll: roll).
+	roll := roll diceRolls: #(6 6 5 2).	"19 on 4 dice"
+	self deny: (bout isAutomaticMissForRoll: roll).
+	roll := roll diceRolls: #(6 6 5 3).	"20 on 4 dice"
+	self assert: (bout isAutomaticMissForRoll: roll).
+	roll := roll diceRolls: #(6 6 5 4).	"21 on 4 dice"
+	self assert: (bout isAutomaticMissForRoll: roll).
+	roll := roll diceRolls: #(6 6 5 5).	"22 on 4 dice"
+	self assert: (bout isAutomaticMissForRoll: roll).
+	roll := roll diceRolls: #(6 6 5 6).	"23 on 4 dice"
+	self assert: (bout isAutomaticMissForRoll: roll).
+	roll := roll diceRolls: #(6 6 6 6).	"24 on 4 dice"
+	self assert: (bout isAutomaticMissForRoll: roll)
 ]
 
 { #category : #tests }
 BoutTest >> testIsBoutUnfinished [
 	| hero1 hero2 bout |
-	hero1 := MSHero name: 'H1' st: 12 dx: 12 weapon: MSWeapon broadsword armor: MSArmor none shield: MSShield none.
-	hero2 := MSHero name: 'H2' st: 12 dx: 12 weapon: MSWeapon broadsword armor: MSArmor none shield: MSShield none.
-	bout := MSBout hero1: hero1 hero2: hero2 poleCharge: false defendPoleCharge: false.
-	self assert: bout isBoutUnfinished.
-	
-
+	hero1 := MSHero
+		name: 'H1'
+		st: 12
+		dx: 12
+		weapon: MSWeapon broadsword
+		armor: MSArmor none
+		shield: MSShield none.
+	hero2 := MSHero
+		name: 'H2'
+		st: 12
+		dx: 12
+		weapon: MSWeapon broadsword
+		armor: MSArmor none
+		shield: MSShield none.
+	bout := MSBout
+		hero1: hero1
+		hero2: hero2
+		poleCharge: false
+		defendPoleCharge: false.
+	self assert: bout isBoutUnfinished
 ]
 
 { #category : #tests }
 BoutTest >> testIsBrokenWeapon [
-	| bout |
+	| bout roll |
 	bout := MSBout new.
-	self deny: (bout isBrokenWeaponForRoll: 16 forDice: 3).
-	self deny: (bout isBrokenWeaponForRoll: 17 forDice: 3).
-	self assert: (bout isBrokenWeaponForRoll: 18 forDice: 3).
-
-	self deny: (bout isBrokenWeaponForRoll: 20 forDice: 4).
-	self deny: (bout isBrokenWeaponForRoll: 21 forDice: 4).
-	self deny: (bout isBrokenWeaponForRoll: 22 forDice: 4).
-	self assert: (bout isBrokenWeaponForRoll: 23 forDice: 4).
-	self assert: (bout isBrokenWeaponForRoll: 24 forDice: 4).
-
+	roll := MSRoll new.
+	roll diceRolls: #(5 5 6).	"16 on 3 dice"
+	self deny: (bout isBrokenWeaponForRoll: roll).
+	roll diceRolls: #(5 6 6).	"17 on 3 dice"
+	self deny: (bout isBrokenWeaponForRoll: roll).
+	roll diceRolls: #(6 6 6).	"18 on 3 dice"
+	self assert: (bout isBrokenWeaponForRoll: roll).
+	roll diceRolls: #(6 6 6 2).	"20 on 4 dice"
+	self deny: (bout isBrokenWeaponForRoll: roll).
+	roll diceRolls: #(6 6 6 3).	"21 on 4 dice"
+	self deny: (bout isBrokenWeaponForRoll: roll).
+	roll diceRolls: #(6 6 6 4).	"22 on 4 dice"
+	self deny: (bout isBrokenWeaponForRoll: roll).
+	roll diceRolls: #(6 6 6 5).	"23 on 4 dice"
+	self assert: (bout isBrokenWeaponForRoll: roll).
+	roll diceRolls: #(6 6 6 6).	"24 on 4 dice"
+	self assert: (bout isBrokenWeaponForRoll: roll)
 ]
 
 { #category : #tests }
 BoutTest >> testIsDoubleDamage [
-	| bout |
+	| bout roll |
 	bout := MSBout new.
-	self deny: (bout isDoubleDamageForRoll: 5 forDice: 3).
-	self assert: (bout isDoubleDamageForRoll: 4 forDice: 3).
-	self deny: (bout isDoubleDamageForRoll: 3 forDice: 3).
+	roll := MSRoll new.
+	roll diceRolls: #(1 1 3).	"5 on 3 dice"
+	self deny: (bout isDoubleDamageForRoll: roll).
+	roll diceRolls: #(1 1 2).	"4 on 3 dice"
+	self assert: (bout isDoubleDamageForRoll: roll).
+	roll diceRolls: #(1 1 1).	"3 on 3 dice"
+	self deny: (bout isDoubleDamageForRoll: roll).
 	"Double damage not possible on 4 dice in Melee (defending)"
-	self deny: (bout isDoubleDamageForRoll: 6 forDice: 4).
-	self deny: (bout isDoubleDamageForRoll: 5 forDice: 4).
-	self deny: (bout isDoubleDamageForRoll: 4 forDice: 4).
+	roll diceRolls: #(1 1 3 1).	"6 on 4 dice"
+	self deny: (bout isDoubleDamageForRoll: roll).
+	roll diceRolls: #(1 1 2 1).	"5 on 4 dice"
+	self deny: (bout isDoubleDamageForRoll: roll).
+	roll diceRolls: #(1 1 1 1).	"4 on 4 dice"
+	self deny: (bout isDoubleDamageForRoll: roll).
 
 ]
 
 { #category : #tests }
 BoutTest >> testIsDroppedWeapon [
-	| bout |
+	| bout roll |
 	bout := MSBout new.
-	self deny: (bout isDroppedWeaponForRoll: 16 forDice: 3).
-	self assert: (bout isDroppedWeaponForRoll: 17 forDice: 3).
-	self deny: (bout isDroppedWeaponForRoll: 18 forDice: 3).
+	roll := MSRoll new.
+	roll diceRolls: #(6 6 4).	"16 on 3 dice"
+	self deny: (bout isDroppedWeaponForRoll: roll).
+	roll diceRolls: #(6 6 5).	"17 on 3 dice"
+	self assert: (bout isDroppedWeaponForRoll: roll).
+	roll diceRolls: #(6 6 6).	"18 on 3 dice"
+	self deny: (bout isDroppedWeaponForRoll: roll).
 
-	self deny: (bout isDroppedWeaponForRoll: 20 forDice: 4).
-	self assert: (bout isDroppedWeaponForRoll: 21 forDice: 4).
-	self assert: (bout isDroppedWeaponForRoll: 22 forDice: 4).
-	self deny: (bout isDroppedWeaponForRoll: 23 forDice: 4).
-	self deny: (bout isDroppedWeaponForRoll: 24 forDice: 4).
+	roll diceRolls: #(6 6 5 3).	"20 on 4 dice"
+	self deny: (bout isDroppedWeaponForRoll: roll).
+	roll diceRolls: #(6 6 5 4).	"21 on 4 dice"
+	self assert: (bout isDroppedWeaponForRoll: roll).
+	roll diceRolls: #(6 6 5 5).	"22 on 4 dice"
+	self assert: (bout isDroppedWeaponForRoll: roll).
+	roll diceRolls: #(6 6 6 5).	"23 on 4 dice"
+	self deny: (bout isDroppedWeaponForRoll: roll).
+	roll diceRolls: #(6 6 6 6).	"24 on 4 dice"
+	self deny: (bout isDroppedWeaponForRoll: roll).
 
 ]
 
 { #category : #tests }
 BoutTest >> testIsTripleDamage [
-	| bout |
+	| bout roll |
 	bout := MSBout new.
-	self deny: (bout isTripleDamageForRoll: 5 forDice: 3).
-	self deny: (bout isTripleDamageForRoll: 4 forDice: 3).
-	self assert: (bout isTripleDamageForRoll: 3 forDice: 3).
+	roll := MSRoll new.
+	roll diceRolls: #(1 1 3).	"5 on 3 dice"
+	self deny: (bout isTripleDamageForRoll: roll).
+	roll diceRolls: #(1 1 2).	"4 on 3 dice"
+	self deny: (bout isTripleDamageForRoll: roll).
+	roll diceRolls: #(1 1 1).	"3 on 3 dice"
+	self assert: (bout isTripleDamageForRoll: roll).
 	"Triple damage not possible on 4 dice in Melee (defending)"
-	self deny: (bout isTripleDamageForRoll: 5 forDice: 4).
-	self deny: (bout isTripleDamageForRoll: 4 forDice: 4).
-	self deny: (bout isTripleDamageForRoll: 6 forDice: 4).
+	roll diceRolls: #(1 1 1 2).	"5 on 4 dice"
+	self deny: (bout isTripleDamageForRoll: roll).
+	roll diceRolls: #(1 1 1 1).	"4 on 4 dice"
+	self deny: (bout isTripleDamageForRoll: roll).
+	roll diceRolls: #(1 1 1 3).	"6 on 4 dice"
+	self deny: (bout isTripleDamageForRoll: roll)
+]
+
+{ #category : #tests }
+BoutTest >> testTryPickUp [
+	| bout hero |
+	bout := MSBout new.
+	hero := MSHero myrmidon.
+	hero dropWeapon.
+	bout tryPickUp: hero.
+	self assert: hero isPickingUpWeapon.
+	self assert: hero isProne.
+	self assert: hero readiedWeapon equals: MSWeapon none.
 
 ]

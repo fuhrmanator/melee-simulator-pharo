@@ -46,7 +46,7 @@ DieTest >> testRollFourDice [
 DieTest >> testRollThreeDice [
 	| results |
 	results := Set new.
-	1 to: 600 do: [ :i | 
+	1 to: 800 do: [ :i | 
 		results add: MSDie rollThreeDice ].
 	self assert: ((3 to: 18) asSet difference: results) isEmpty.
 

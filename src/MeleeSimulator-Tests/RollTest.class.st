@@ -27,7 +27,7 @@ RollTest >> testTotal [
 	self assert: ((2 to: 12) asSet) equals: results.
 
 	results := Set new.
-	1 to: n * 3 do: [ :i | 
+	1 to: n * 8 do: [ :i | 
 		results add: ((MSRoll numberOfDice: 3) total).
 	 ].
 	self assert: ((3 to: 18) asSet) equals: results.
