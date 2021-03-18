@@ -120,6 +120,25 @@ HeroTest >> testDx [
 ]
 
 { #category : #tests }
+HeroTest >> testHasDxPenaltyFromInjuries [
+	| hero |
+	hero := MSHero myrmidon. "No armor, small shield"
+	hero shield: MSShield none. "drop shield"
+	hero takeHits: 2.
+	self deny: hero hasDxPenaltyFromInjuries.
+	hero takeHits: 3.
+	"dex penalty applies after 5 hits"
+	self assert: hero hasDxPenaltyFromInjuries.
+	"lasts next round, too"
+	hero newRound.
+	self assert: hero hasDxPenaltyFromInjuries.
+	"recover"
+	hero newRound.
+	self deny: hero hasDxPenaltyFromInjuries.
+	
+]
+
+{ #category : #tests }
 HeroTest >> testIsAlive [
 	| hero |
 	hero := MSHero name: 'Fred' st: 12 dx: 12 weapon: MSWeapon broadsword  armor: MSArmor none shield: MSShield none.
