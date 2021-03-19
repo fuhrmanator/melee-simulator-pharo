@@ -135,6 +135,8 @@ BoutTest >> testIsDoubleDamage [
 	| bout roll |
 	bout := MSBout new.
 	roll := MSRoll new.
+	roll diceRolls: #(3 3 2).	"8 on 3 dice"
+	self deny: (bout isDoubleDamageForRoll: roll).
 	roll diceRolls: #(1 1 3).	"5 on 3 dice"
 	self deny: (bout isDoubleDamageForRoll: roll).
 	roll diceRolls: #(1 1 2).	"4 on 3 dice"

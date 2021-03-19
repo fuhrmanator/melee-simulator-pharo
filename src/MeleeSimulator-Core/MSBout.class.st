@@ -204,9 +204,14 @@ MSBout >> poleCharge: boolean [
 
 { #category : #bloodyhell }
 MSBout >> resolveAttackFor: attacker attacking: attackee withRoll: roll [
-	| hits facingBonus numDice |
+	| hits facingBonus numDice doCriticalDamage |
+	hits := 0.
 	numDice := roll numberOfDice.
 	facingBonus := self attackeeFacingBonus: attackee.
+	doCriticalDamage := [ :multiplier :s | 
+	self crTrace: s.
+	criticalHits := criticalHits + 1.
+	hits := hits * multiplier ].
 	self
 		crTrace:
 			attacker name , ' rolled ' , roll total asString , ' with adjDex '
@@ -225,23 +230,21 @@ MSBout >> resolveAttackFor: attacker attacking: attackee withRoll: roll [
 		ifTrue: [ self crTrace: 'Hit! '.
 			hits := attacker readiedWeapon doDamage.
 			attacker isCharging & attacker readiedWeapon isPole
-				ifTrue: [ self crLog: 'Pole weapon charge does double damage!'.
-					criticalHits := criticalHits + 1.
-					hits := hits * 2 ].
+				ifTrue: [ doCriticalDamage
+						cull: 2
+						cull: 'Pole weapon charge does double damage!' ].
 			(self isDoubleDamageForRoll: roll)
-				ifTrue: [ self
-						crTrace:
-							'Double damage! (roll of ' , roll asString , ' on ' , numDice asString
-								, ' dice.)'.
-					criticalHits := criticalHits + 1.
-					hits := hits * 2 ]
+				ifTrue: [ doCriticalDamage
+						cull: 2
+						cull:
+							'Double damage! (roll of ' , roll total asString , ' on '
+								, numDice asString , ' dice).' ]
 				ifFalse: [ (self isTripleDamageForRoll: roll)
-						ifTrue: [ self
-								crLog:
-									'Triple damage! (roll of ' , roll asString , ' on ' , numDice asString
-										, ' dice.)'.
-							criticalHits := criticalHits + 1.
-							hits := hits * 3 ] ].
+						ifTrue: [ doCriticalDamage
+								cull: 3
+								cull:
+									'Triple damage! (roll of ' , roll total asString , ' on '
+										, numDice asString , ' dice).' ] ].
 			self
 				crTrace:
 					'Total damage done by ' , attacker name , ': ' , hits asString
