@@ -334,7 +334,7 @@ MSWeapon >> dice: anObject [
 
 { #category : #'as yet unclassified' }
 MSWeapon >> doDamage [
-	| damage |
+	| roll damage |
 	self
 		crTrace:
 			'Rolling for weapon doing ' , dice asString , 'd'
@@ -346,15 +346,16 @@ MSWeapon >> doDamage [
 					(modifier = 0
 						ifTrue: [ '' ]
 						ifFalse: [ modifier asString ]) , ' damage.'.
-	damage := 0.
-	dice timesRepeat: [ damage := damage + MSDie roll ].
-	damage := damage + modifier.
+	roll := MSRoll numberOfDice: dice modifier: modifier.
+	damage := roll total.
 	modifier ~= 0
 		ifTrue: [ self
 				crTrace:
-					(modifier > 0
-						ifTrue: [ '+' ]
-						ifFalse: [ '' ]) , modifier asString ].
+					'Modifier: '
+						,
+							(modifier > 0
+								ifTrue: [ '+' ]
+								ifFalse: [ '' ]) , modifier asString ].
 	"Strange smalltalk semantics"
 	damage := damage max: 0.
 	self crTrace: 'Total weapon damage: ' , damage asString.

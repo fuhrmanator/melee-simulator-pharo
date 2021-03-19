@@ -20,7 +20,7 @@ BoutTest >> testAttackeeFacingBonus [
 BoutTest >> testFightToTheDeath [
 	| hero1 hero2 bout winner |
 	hero1 := MSHero myrmidon.
-	hero1 name: 'Fred'.
+	hero1 name: 'Fred'; readiedWeapon: MSWeapon shortsword.
 	hero2 := MSHero myrmidon.
 	hero2 name: 'Barney'.
 	bout := MSBout

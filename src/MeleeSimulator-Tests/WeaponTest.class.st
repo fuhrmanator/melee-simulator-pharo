@@ -10,5 +10,11 @@ WeaponTest >> testDoDamage [
 	weapon := MSWeapon dagger.
 	results := Set new.
 	100 timesRepeat: [ results add: weapon doDamage ].
-	self assert: ((0 to: 5) asSet difference: results) isEmpty.
+	self assert: ((0 to: 5) asSet) equals: results.
+	
+	weapon := MSWeapon broadsword.
+	results := Set new.
+	100 timesRepeat: [ results add: weapon doDamage ].
+	self assert: ((2 to: 12) asSet) equals: results.
+
 ]
