@@ -23,6 +23,61 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+MSHero class >> allHeroes [
+	"Create all the possible hero configurations (ST/DX armor weapons)"
+
+	| heroes armors shields |
+	heroes := Set new.
+	armors := MSArmor armorRegistry values.
+	shields := MSShield shieldRegistry values.
+	(8 to: 16)
+		do: [ :st | 
+			| dx weapons |
+			dx := 8 + 16 - st.
+			self crTrace: 'Heroes of ST ' , st asString.
+			"Collection of weapons for this st"
+			weapons := MSWeapon weaponRegistry values
+				select: [ :w | w st = st ].
+			weapons size = 0
+				ifTrue: [ weapons := Set new.
+					weapons add: MSWeapon dagger ].
+			self crTrace: weapons.
+			weapons
+				do: [ :w | 
+					self crTrace: w name.
+					armors
+						do: [ :a | 
+							self crTrace: a name.
+							w isTwoHanded
+								ifTrue: [ "cannot use shield"
+									heroes
+										add:
+											(MSHero new
+												name:
+													'ST' , st asString , '_DX' , dx asString , w name , '_' , a name , '_'
+														, MSShield none name;
+												st: st;
+												dx: dx;
+												readiedWeapon: w;
+												armor: a;
+												shield: MSShield none) ]
+								ifFalse: [ shields
+										do: [ :s | 
+											heroes
+												add:
+													(MSHero new
+														name:
+															'ST' , st asString , '_DX' , dx asString , w name , '_' , a name , '_'
+																, s name;
+														st: st;
+														dx: dx;
+														readiedWeapon: w;
+														armor: a;
+														shield: s) ] ] ] ] ].
+	^ heroes
+]
+
+{ #category : #'as yet unclassified' }
 MSHero class >> myrmidon [
 	^ self new
 		name: 'Myrmidon';
