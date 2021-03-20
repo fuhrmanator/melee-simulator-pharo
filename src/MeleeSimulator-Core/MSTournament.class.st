@@ -33,12 +33,20 @@ MSTournament >> initialize [
 
 { #category : #'as yet unclassified' }
 MSTournament >> run [
+	| combinations counter |
+	combinations := heroes size take: 2.
+	counter := 0.
+	[ :job | 
 	heroes
 		combinations: 2
 		atATimeDo: [ :pair | 
 			| h1 h2 |
 			h1 := pair first.
 			h2 := pair second.
+			counter := counter + 1.
+			job
+				progress: counter / combinations ;
+				title: 'Pairing up ' , h1 name , ' and ' , h2 name.
 			self crTrace: '>>>> Pairing up ' , h1 name , ' and ' , h2 name.
 			1 to: nBouts do: [ :i | 
 				| bout |
@@ -49,5 +57,5 @@ MSTournament >> run [
 					poleCharge: false
 					defendPoleCharge: false.
 				bout fightToTheDeath.
-				bouts add: bout ] ]
+				bouts add: bout ] ] ] asJob run
 ]
