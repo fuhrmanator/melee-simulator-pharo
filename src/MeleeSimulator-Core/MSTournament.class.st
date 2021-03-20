@@ -13,7 +13,7 @@ Class {
 MSTournament class >> runSimulationAllHeroes [
 	<script>
 	| t results |
-	t := self with: MSHero allHeroes for: 1.
+	t := self with: MSHero allHeroes for: 40.
 	t run.
 	results := Bag new.
 	t bouts
