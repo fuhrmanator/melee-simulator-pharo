@@ -46,8 +46,8 @@ MSTournament >> run [
 			counter := counter + 1.
 			job
 				progress: counter / combinations ;
-				title: 'Pairing up ' , h1 name , ' and ' , h2 name.
-			self crTrace: '>>>> Pairing up ' , h1 name , ' and ' , h2 name.
+				title: 'Pairing up ' , h1 asString , ' and ' , h2 asString.
+			self crTrace: '>>>> Pairing up ' , h1 asString , ' and ' , h2 asString.
 			1 to: nBouts do: [ :i | 
 				| bout |
 				self crTrace: '>>>> Bout: ' , i asString.

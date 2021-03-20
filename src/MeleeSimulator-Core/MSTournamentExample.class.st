@@ -8,13 +8,13 @@ Class {
 MSTournamentExample >> runSimulationAllHeroes [
 	<script: 'self new runSimulationAllHeroes open'>
 	| t results c p heroes x wins horizontal |
-	t := MSTournament with: MSHero allHeroes for: 10.
+	t := MSTournament with: MSHero allHeroes for: 100.
 	t run.
 	results := Bag new.
 	t bouts
 		do: [ :b | 
 			b winner notNil
-				ifTrue: [ results add: b winner name ] ].
+				ifTrue: [ results add: b winner asString ] ].
 	results inspect.
 
 	"Roassal bar chart on results"
@@ -42,7 +42,10 @@ MSTournamentExample >> runSimulationAllHeroes [
 				asFloat).
 	c title: 'Wins for each Hero'.
 	c build.
-	p bars @ (RSPopup text: [ :i | 'Test' ]).
+	p bars
+		doWithIndex: [ :bar :index | 
+			bar
+				@ (RSPopup text: [ :i | (heroes at: index) , String cr , i asString ]) ].
 	c canvas @ RSCanvasController.
 	^ c canvas
 ]

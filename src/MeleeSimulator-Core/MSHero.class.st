@@ -26,10 +26,11 @@ Class {
 MSHero class >> allHeroes [
 	"Create all the possible hero configurations (ST/DX armor weapons)"
 
-	| heroes armors shields |
+	| index heroes armors shields |
 	heroes := OrderedCollection new.
 	armors := MSArmor armorRegistry values.
 	shields := MSShield shieldRegistry values.
+	index := 0.
 	(8 to: 16)
 		do: [ :st | 
 			| dx weapons |
@@ -50,12 +51,11 @@ MSHero class >> allHeroes [
 							self crTrace: a name.
 							w isTwoHanded
 								ifTrue: [ "cannot use shield"
+									index := index + 1.
 									heroes
 										add:
 											(MSHero new
-												name:
-													'ST' , st asString , '_DX' , dx asString , '_' , w name , '_' , a name , '_'
-														, MSShield none name;
+												name: 'H', index asString;
 												st: st;
 												dx: dx;
 												readiedWeapon: w;
@@ -63,12 +63,11 @@ MSHero class >> allHeroes [
 												shield: MSShield none) ]
 								ifFalse: [ shields
 										do: [ :s | 
+											index := index + 1.
 											heroes
 												add:
 													(MSHero new
-														name:
-															'ST' , st asString , '_DX' , dx asString , '_' , w name , '_' , a name , '_'
-																, s name;
+														name: 'H', index asString;
 														st: st;
 														dx: dx;
 														readiedWeapon: w;
@@ -126,6 +125,26 @@ MSHero >> armor [
 { #category : #accessing }
 MSHero >> armor: aMSArmor [ 
 	armor := aMSArmor
+]
+
+{ #category : #converting }
+MSHero >> asString [
+	^ String
+		streamContents: [ :stream | 
+			stream
+				nextPutAll: (name copyReplaceAll: ' ' with: '_');
+				nextPut: $:;
+				nextPutAll: 'ST';
+				nextPutAll: st asString;
+				nextPut: $;;
+				nextPutAll: 'DX';
+				nextPutAll: dx asString;
+				nextPut: $;;
+				nextPutAll: (readiedWeapon name copyReplaceAll: ' ' with: '_');
+				nextPut: $;;
+				nextPutAll: (armor name copyReplaceAll: ' ' with: '_');
+				nextPut: $;;
+				nextPutAll: (shield name copyReplaceAll: ' ' with: '_') ]
 ]
 
 { #category : #combat }
