@@ -8,7 +8,9 @@ Class {
 MSDie class >> roll [
 	| roll |
 	roll := 6 atRandom.
-	self crTrace: 'Die roll: ' , roll asString.
+	Transcript
+		crShow: 'Die roll: ';
+		show: roll asString.
 	^ roll
 ]
 

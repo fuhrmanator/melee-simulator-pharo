@@ -35,20 +35,16 @@ MSHero class >> allHeroes [
 		do: [ :st | 
 			| dx weapons |
 			dx := 8 + 16 - st.
-			self crTrace: 'Heroes of ST ' , st asString.
 			"Collection of weapons for this st"
 			weapons := MSWeapon weaponRegistry values
 				select: [ :w | w st = st ].
 			weapons size = 0
 				ifTrue: [ weapons := Set new.
 					weapons add: MSWeapon dagger ].
-			self crTrace: weapons.
 			weapons
 				do: [ :w | 
-					self crTrace: w name.
 					armors
 						do: [ :a | 
-							self crTrace: a name.
 							w isTwoHanded
 								ifTrue: [ "cannot use shield"
 									index := index + 1.
