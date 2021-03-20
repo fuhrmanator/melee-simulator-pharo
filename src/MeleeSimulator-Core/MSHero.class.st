@@ -27,7 +27,7 @@ MSHero class >> allHeroes [
 	"Create all the possible hero configurations (ST/DX armor weapons)"
 
 	| heroes armors shields |
-	heroes := Set new.
+	heroes := OrderedCollection new.
 	armors := MSArmor armorRegistry values.
 	shields := MSShield shieldRegistry values.
 	(8 to: 16)

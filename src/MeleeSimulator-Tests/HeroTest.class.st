@@ -34,6 +34,11 @@ HeroTest >> testAdjSt [
 ]
 
 { #category : #tests }
+HeroTest >> testAllHeroes [
+	self assert: MSHero allHeroes size equals: 164
+]
+
+{ #category : #tests }
 HeroTest >> testArmor [
 	| hero |
 	hero := MSHero new armor: MSArmor leather.

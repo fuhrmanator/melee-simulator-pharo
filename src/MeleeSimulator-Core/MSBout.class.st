@@ -96,7 +96,7 @@ MSBout >> fightToTheDeath [
 				ifTrue: [ winner := hero2 ] ].
 	winner isNotNil
 		ifTrue: [ self crTrace: '-------> The winner of this bout is ' , winner name ]
-		ifFalse: [ self crLog: '-------> This bout was a TIE!' ].
+		ifFalse: [ self crTrace: '-------> This bout was a TIE!' ].
 	^ winner
 ]
 
