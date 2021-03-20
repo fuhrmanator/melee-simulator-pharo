@@ -13,14 +13,14 @@ Class {
 MSTournament class >> runSimulationAllHeroes [
 	<script>
 	| t results |
-	t := self with: MSHero allHeroes for: 40.
+	t := self with: MSHero allHeroes for: 1.
 	t run.
 	results := Bag new.
 	t bouts
 		do: [ :b | 
 			b winner notNil
 				ifTrue: [ results add: b winner name ] ].
-	^ results
+	results inspect
 ]
 
 { #category : #'as yet unclassified' }
