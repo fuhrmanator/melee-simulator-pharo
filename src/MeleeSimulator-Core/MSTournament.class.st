@@ -10,20 +10,6 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-MSTournament class >> runSimulationAllHeroes [
-	<script>
-	| t results |
-	t := self with: MSHero allHeroes for: 40.
-	t run.
-	results := Bag new.
-	t bouts
-		do: [ :b | 
-			b winner notNil
-				ifTrue: [ results add: b winner name ] ].
-	results inspect
-]
-
-{ #category : #'as yet unclassified' }
 MSTournament class >> with: heroCollection for: number [
 	^ self new heroes: heroCollection nBouts: number
 ]
