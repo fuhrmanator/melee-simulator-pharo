@@ -382,3 +382,8 @@ MSBout >> tryStandUp: hero [
 	hero standUp.
 	self crTrace: hero name , ' is standing up this turn.'
 ]
+
+{ #category : #'as yet unclassified' }
+MSBout >> winner [
+	^ winner
+]

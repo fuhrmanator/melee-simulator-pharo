@@ -54,7 +54,7 @@ MSHero class >> allHeroes [
 										add:
 											(MSHero new
 												name:
-													'ST' , st asString , '_DX' , dx asString , w name , '_' , a name , '_'
+													'ST' , st asString , '_DX' , dx asString , '_' , w name , '_' , a name , '_'
 														, MSShield none name;
 												st: st;
 												dx: dx;
@@ -67,7 +67,7 @@ MSHero class >> allHeroes [
 												add:
 													(MSHero new
 														name:
-															'ST' , st asString , '_DX' , dx asString , w name , '_' , a name , '_'
+															'ST' , st asString , '_DX' , dx asString , '_' , w name , '_' , a name , '_'
 																, s name;
 														st: st;
 														dx: dx;
