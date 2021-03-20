@@ -7,8 +7,8 @@ Class {
 { #category : #'as yet unclassified' }
 MSTournamentExample >> runSimulationAllHeroes [
 	<script: 'self new runSimulationAllHeroes open'>
-	| t results c p heroes x wins size horizontal |
-	t := MSTournament with: MSHero allHeroes for: 1.
+	| t results c p heroes x wins horizontal |
+	t := MSTournament with: MSHero allHeroes for: 10.
 	t run.
 	results := Bag new.
 	t bouts
@@ -27,9 +27,6 @@ MSTournamentExample >> runSimulationAllHeroes [
 	x := 1 to: heroes size.
 	c := RSChart new.
 	p := RSBarPlot new x: x y: wins.
-"	size := 1.
-	p barSize: size.
-	p barOffset: size / 2."
 	c addPlot: p.
 	c
 		addDecoration:
@@ -45,7 +42,7 @@ MSTournamentExample >> runSimulationAllHeroes [
 				asFloat).
 	c title: 'Wins for each Hero'.
 	c build.
-	p bars @ RSPopup.
-	p bars interaction popupText: [ :i | 'Test' ]. 
+	p bars @ (RSPopup text: [ :i | 'Test' ]).
+	c canvas @ RSCanvasController.
 	^ c canvas
 ]
