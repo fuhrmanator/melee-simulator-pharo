@@ -1,0 +1,53 @@
+Class {
+	#name : #MSTournament,
+	#superclass : #Object,
+	#instVars : [
+		'bouts',
+		'heroes',
+		'nBouts'
+	],
+	#category : #'MeleeSimulator-Core'
+}
+
+{ #category : #'as yet unclassified' }
+MSTournament class >> with: heroCollection for: number [
+	^ self new heroes: heroCollection nBouts: number
+]
+
+{ #category : #'as yet unclassified' }
+MSTournament >> bouts [
+	^ bouts
+]
+
+{ #category : #'as yet unclassified' }
+MSTournament >> heroes: aCollection nBouts: number [ 
+	heroes := aCollection.
+	nBouts := number
+]
+
+{ #category : #'as yet unclassified' }
+MSTournament >> initialize [ 
+	super initialize.
+	bouts := OrderedCollection new.
+]
+
+{ #category : #'as yet unclassified' }
+MSTournament >> run [
+	heroes
+		combinations: 2
+		atATimeDo: [ :pair | 
+			| h1 h2 |
+			h1 := pair first.
+			h2 := pair second.
+			self crTrace: '>>>> Pairing up ' , h1 name , ' and ' , h2 name.
+			1 to: nBouts do: [ :i | 
+				| bout |
+				self crTrace: '>>>> Bout: ' , i asString.
+				bout := MSBout
+					hero1: h1 copy
+					hero2: h2 copy
+					poleCharge: false
+					defendPoleCharge: false.
+				bout fightToTheDeath.
+				bouts add: bout ] ]
+]
