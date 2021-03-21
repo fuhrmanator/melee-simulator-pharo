@@ -216,30 +216,28 @@ MSBout >> resolveAttackFor: attacker attacking: attackee withRoll: roll [
 	self crTrace: s.
 	criticalHits := criticalHits + 1.
 	hits := hits * multiplier ].
-	Transcript
-		crShow: attacker name;
-		show: ' rolled ';
-		show: roll total asString;
-		show: ' with adjDex ';
-		show:
-			(attackee isProne
-				ifTrue: [ String
-						streamContents: [ :stream | 
-							stream
-								nextPutAll: (attacker adjDx + facingBonus) asString;
-								nextPutAll: ' (';
-								nextPutAll: attacker adjDx asString;
-								nextPutAll: ' + ';
-								nextPutAll: facingBonus asString;
-								nextPutAll: ', target is prone, i.e., knocked down or picking up a weapon).' ] ]
-				ifFalse: [ attacker adjDx asString ]).
+	self
+		crTrace:
+			attacker name , ' rolled ' , roll total asString , ' with adjDex '
+				,
+					(attackee isProne
+						ifTrue: [ String
+								streamContents: [ :stream | 
+									stream
+										nextPutAll: (attacker adjDx + facingBonus) asString;
+										nextPutAll: ' (';
+										nextPutAll: attacker adjDx asString;
+										nextPutAll: ' + ';
+										nextPutAll: facingBonus asString;
+										nextPutAll: ', target is prone, i.e., knocked down or picking up a weapon).' ] ]
+						ifFalse: [ attacker adjDx asString ]).
 
 	"A hit is a roll that is NOT an automatic miss AND (below or equal to the attacker's adjDex OR and automatic hit)"
 	(self isAutomaticMissForRoll: roll) not
 		&
 			(roll total <= (attacker adjDx + facingBonus)
 				| (self isAutomaticHitForRoll: roll))
-		ifTrue: [ Transcript crShow: 'Hit! '.
+		ifTrue: [ self crTrace: 'Hit! '.
 			hits := attacker readiedWeapon doDamage.
 			attacker isCharging & attacker readiedWeapon isPole
 				ifTrue: [ doCriticalDamage
@@ -269,44 +267,41 @@ MSBout >> resolveAttackFor: attacker attacking: attackee withRoll: roll [
 												nextPutAll: ' on ';
 												nextPutAll: numDice asString;
 												nextPutAll: ' dice).' ]) ] ].
-			Transcript
-				crShow: 'Total damage done by ';
-				show: attacker name;
-				show: ': ';
-				show: hits asString;
-				show: ' hits.'.
-			Transcript
-				crShow: attackee name;
-				show: ' takes ';
-				show: (attackee takeHits: hits) asString;
-				show: ' hits';
-				show:
-					(attackee isKnockedDown
-						ifTrue: ', is knocked down'
-						ifFalse: '');
-				show:
-					(attackee isAlive not
-						ifTrue: [ String
-								streamContents: [ :stream | 
-									stream
-										nextPutAll: ' and is dead ST: ';
-										nextPutAll: attackee st asString;
-										nextPut: $(;
-										nextPutAll: (attackee st - attackee damageTaken) asString;
-										nextPut: $) ] ]
-						ifFalse: '');
-				show:
-					(attackee isConscious not & attackee isAlive
-						ifTrue: ', and is unconscious'
-						ifFalse: '') , '.' ]
+			self
+				crTrace:
+					'Total damage done by ' , attacker name , ': ' , hits asString
+						, ' hits.'.
+			self
+				crTrace:
+					attackee name , ' takes ' , (attackee takeHits: hits) asString
+						, ' hits'
+						,
+							(attackee isKnockedDown
+								ifTrue: ', is knocked down'
+								ifFalse: '')
+						,
+							(attackee isAlive not
+								ifTrue: [ String
+										streamContents: [ :stream | 
+											stream
+												nextPutAll: ' and is dead ST: ';
+												nextPutAll: attackee st asString;
+												nextPut: $(;
+												nextPutAll: (attackee st - attackee damageTaken) asString;
+												nextPut: $) ] ]
+								ifFalse: '')
+						,
+							(attackee isConscious not & attackee isAlive
+								ifTrue: ', and is unconscious'
+								ifFalse: '') , '.' ]
 		ifFalse: [ "It's a miss"
-			Transcript crShow: 'Missed. '.
+			self crTrace: 'Missed. '.
 			(self isDroppedWeaponForRoll: roll)
-				ifTrue: [ Transcript crShow: 'Dropped weapon! '.
+				ifTrue: [ self crTrace: 'Dropped weapon! '.
 					criticalMisses := criticalMisses + 1.
 					attacker dropWeapon ]
 				ifFalse: [ (self isBrokenWeaponForRoll: roll)
-						ifTrue: [ Transcript crShow: 'Broke weapon! '.
+						ifTrue: [ self crTrace: 'Broke weapon! '.
 							criticalMisses := criticalMisses + 1.
 							attacker breakWeapon ] ] ]
 ]
@@ -320,7 +315,7 @@ MSBout >> showStatusOfAttacker: attacker attacking: attackee [
 					'Attacker has -2 DX penalty due to having taken '
 						, attacker damageTakenThisRound asString , ' hits this round.' ].
 	attacker isCharging
-		ifTrue: [ self crLog: 'Attacker is charging this round.' ].
+		ifTrue: [ self crTrace: 'Attacker is charging this round.' ].
 	attacker isDefending
 		ifTrue: [ self crTrace: 'Attacker is defending this round.' ].
 	attacker isPickingUpWeapon
@@ -348,7 +343,7 @@ MSBout >> tryAttackFor: attacker on: attackee [
 						ifFalse: [ attacker readiedWeapon ~= MSWeapon none
 								ifTrue: [ attacker isCharging
 										ifTrue: [ self
-												crLog: 'He''s charging with a pole weapon (double damage if he hits).' ].
+												crTrace: 'He''s charging with a pole weapon (double damage if he hits).' ].
 									numDice := attackee isDefending
 										ifTrue: [ 4 ]
 										ifFalse: [ 3 ].

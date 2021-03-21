@@ -19,7 +19,7 @@ MSTournamentTest >> testRun [
 			(MSHero myrmidon name: 'H4').
 			(MSHero myrmidon name: 'H5')
 			}
-		for: 1.
+		for: 100.
 	tourney run.
 	tourney bouts size = 1
 ]
