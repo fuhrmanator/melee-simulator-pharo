@@ -8,7 +8,7 @@ Class {
 MSTournamentExample >> runSimulationAllHeroes [
 	<script: 'self new runSimulationAllHeroes open'>
 	| t results c p heroes x wins horizontal |
-	t := MSTournament with: MSHero allHeroes for: 100.
+	t := MSTournament with: MSHero allHeroes for: 50.
 	t run.
 	results := Bag new.
 	t bouts

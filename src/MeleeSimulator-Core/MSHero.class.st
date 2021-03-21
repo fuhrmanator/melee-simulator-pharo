@@ -55,7 +55,7 @@ MSHero class >> allHeroes [
 												name: 'H', index asString;
 												st: st;
 												dx: dx;
-												readiedWeapon: w;
+												weapon: w;
 												armor: a;
 												shield: MSShield none) ]
 								ifFalse: [ shields
@@ -67,7 +67,7 @@ MSHero class >> allHeroes [
 														name: 'H', index asString;
 														st: st;
 														dx: dx;
-														readiedWeapon: w;
+														weapon: w;
 														armor: a;
 														shield: s) ] ] ] ] ].
 	^ heroes
