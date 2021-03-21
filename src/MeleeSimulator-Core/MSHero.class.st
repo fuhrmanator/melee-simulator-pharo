@@ -137,7 +137,7 @@ MSHero >> asString [
 				nextPutAll: 'DX';
 				nextPutAll: dx asString;
 				nextPut: $;;
-				nextPutAll: (readiedWeapon name copyReplaceAll: ' ' with: '_');
+				nextPutAll: (weapon name copyReplaceAll: ' ' with: '_');
 				nextPut: $;;
 				nextPutAll: (armor name copyReplaceAll: ' ' with: '_');
 				nextPut: $;;
