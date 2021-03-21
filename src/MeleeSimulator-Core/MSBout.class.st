@@ -41,50 +41,40 @@ MSBout >> defendPoleCharge: boolean [
 { #category : #'as yet unclassified' }
 MSBout >> fightToTheDeath [
 	| firstAttacker secondAttacker |
+	hero1 readiedWeapon ~= MSWeapon none
+		& (hero2 readiedWeapon ~= MSWeapon none)
+		ifFalse: [ self
+				error: 'both heroes must have ready weapons at the start of a bout.' ].
 	winner := nil.
 	[ self isBoutUnfinished ]
 		whileTrue: [ round := round + 1.
 			hero1 newRound.
 			hero2 newRound.
-			Transcript
-				crShow: '--->Round ';
-				show: round asString.
-			Transcript
-				crShow: 'Hero 1: ';
-				show: hero1 name;
-				show: ', ST: ';
-				show: hero1 st asString;
-				show: '(';
-				show: hero1 adjSt asString;
-				show: ')'.
-			Transcript
-				crShow: 'Hero 2: ';
-				show: hero2 name;
-				show: ', ST: ';
-				show: hero2 st asString;
-				show: '(';
-				show: hero2 adjSt asString;
-				show: ')'.
+			self crTrace: '--->Round ' , round asString.
+			self
+				crTrace:
+					'Hero 1: ' , hero1 name , ', ST: ' , hero1 st asString , '('
+						, hero1 adjSt asString , ')'.
+			self
+				crTrace:
+					'Hero 2: ' , hero2 name , ', ST: ' , hero2 st asString , '('
+						, hero2 adjSt asString , ')'.
 			firstAttacker := hero1.
 			secondAttacker := hero2.
 			hero1 adjDx < hero2 adjDx
 				ifTrue: [ firstAttacker := hero2.
 					secondAttacker := hero1 ]
 				ifFalse: [ hero1 adjDx = hero2 adjDx
-						ifTrue: [ Transcript
-								crShow: 'Adjusted dexterities are equal; rolling to decide attack order'.
+						ifTrue: [ self
+								crTrace: 'Adjusted dexterities are equal; rolling to decide attack order'.
 							2 atRandom < 2
 								ifTrue: [ firstAttacker := hero2.
 									secondAttacker := hero1 ] ] ].
-			Transcript
-				crShow: firstAttacker name;
-				show: ' (adjDx = ';
-				show: firstAttacker adjDx asString;
-				show: ') attacks before ';
-				show: secondAttacker name;
-				show: ' (adjDx = ';
-				show: secondAttacker adjDx asString;
-				show: ')'.
+			self
+				crTrace:
+					firstAttacker name , ' (adjDx = ' , firstAttacker adjDx asString
+						, ') attacks before ' , secondAttacker name , ' (adjDx = '
+						, secondAttacker adjDx asString , ')'.
 			hero1
 				isCharging: isPoleCharge & (round = 1) & hero1 readiedWeapon isPole.
 			hero2
@@ -109,10 +99,8 @@ MSBout >> fightToTheDeath [
 		ifFalse: [ hero2 canDoDamage
 				ifTrue: [ winner := hero2 ] ].
 	winner isNotNil
-		ifTrue: [ Transcript
-				crShow: '-------> The winner of this bout is ';
-				show: winner name ]
-		ifFalse: [ Transcript crShow: '-------> This bout was a TIE!' ].
+		ifTrue: [ self crTrace: '-------> The winner of this bout is ' , winner name ]
+		ifFalse: [ self crTrace: '-------> This bout was a TIE!' ].
 	^ winner
 ]
 
