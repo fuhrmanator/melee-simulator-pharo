@@ -5,6 +5,7 @@ Class {
 		'name',
 		'st',
 		'dx',
+		'weapon',
 		'readiedWeapon',
 		'droppedWeapon',
 		'armor',
@@ -89,7 +90,7 @@ MSHero class >> name: heroName st: heroSt dx: heroDx weapon: heroWeapon armor: h
 		name: heroName;
 		st: heroSt;
 		dx: heroDx;
-		readiedWeapon: heroWeapon;
+		weapon: heroWeapon;
 		armor: heroArmor;
 		shield: heroShield
 ]
@@ -203,6 +204,7 @@ MSHero >> initialize [
 	name := ''.
 	st := 0.
 	dx := 0.
+	weapon := MSWeapon none.
 	readiedWeapon := MSWeapon none.
 	droppedWeapon := MSWeapon none.
 	armor := MSArmor none.
@@ -372,4 +374,15 @@ MSHero >> takeHits: anInteger [
 	damageDone := damageDone max: 0.
 	self takeDamage: damageDone.
 	^ damageDone
+]
+
+{ #category : #accessing }
+MSHero >> weapon [
+	^ weapon
+]
+
+{ #category : #accessing }
+MSHero >> weapon: w [
+	weapon := w.
+	readiedWeapon := w
 ]

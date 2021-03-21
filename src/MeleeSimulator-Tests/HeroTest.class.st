@@ -53,16 +53,19 @@ HeroTest >> testArmor [
 
 { #category : #tests }
 HeroTest >> testBreakWeapon [
-	| hero weapon |
-	hero := MSHero new.
-	weapon := MSWeapon morningstar.
+	| hero heroCopy weapon |
+	hero := MSHero myrmidon.
+	weapon := hero weapon.
+	heroCopy := hero copy.
+	
+	heroCopy breakWeapon.
+	self assert: heroCopy readiedWeapon equals: MSWeapon none.
+	self assert: heroCopy droppedWeapon equals: MSWeapon none.
+	self assert: heroCopy weapon equals: weapon.
+
 	hero readiedWeapon: weapon.
 	self assert: hero readiedWeapon equals: weapon.
-	
-	hero breakWeapon.
-	self assert: hero readiedWeapon equals: MSWeapon none.
 	self assert: hero droppedWeapon equals: MSWeapon none.
-	
 
 ]
 
@@ -85,6 +88,19 @@ HeroTest >> testCanDoDamage [
 	hero takeHits: 12.
 	self deny: hero isAlive.
 	self deny: hero canDoDamage.
+
+]
+
+{ #category : #tests }
+HeroTest >> testConfiguredWeapon [
+	| hero |
+	hero := MSHero new.
+	hero weapon: MSWeapon none.
+	self assert: hero readiedWeapon equals: MSWeapon none.
+	self assert: hero weapon equals: MSWeapon none.
+	hero weapon: MSWeapon dagger.
+	self assert: hero readiedWeapon equals: MSWeapon dagger.
+	self assert: hero weapon equals: MSWeapon dagger.
 
 ]
 
@@ -231,38 +247,7 @@ HeroTest >> testPickupWeapon [
 ]
 
 { #category : #tests }
-HeroTest >> testSt [
-	| hero |
-	hero := MSHero new st: 12.
-	self assert: hero st equals: 12.
-]
-
-{ #category : #tests }
-HeroTest >> testTakeHits [
-	| hero |
-	hero := MSHero
-		name: 'Joe'
-		st: 12
-		dx: 12
-		weapon: MSWeapon none
-		armor: MSArmor leather
-		shield: MSShield none.
-	hero takeHits: 2.
-	self assert: hero damageTaken equals: 0.
-	hero takeHits: 4.
-	self assert: hero damageTaken equals: 2.
-	"Drop armor"
-	hero
-		armor: MSArmor none;
-		takeHits: 4.
-	self assert: hero damageTaken equals: 6.
-	"Ready a Shield"
-	hero shield: MSShield smallShield; takeHits: 3.
-	self assert: hero damageTaken equals: 8.
-]
-
-{ #category : #tests }
-HeroTest >> testWeapon [
+HeroTest >> testReadiedWeapon [
 	| hero |
 	hero := MSHero new.
 	hero readiedWeapon: MSWeapon none.
@@ -299,4 +284,35 @@ HeroTest >> testWeapon [
 	self assert: hero readiedWeapon equals: MSWeapon halberd.
 	hero readiedWeapon: MSWeapon pikeAxe.
 	self assert: hero readiedWeapon equals: MSWeapon pikeAxe
+]
+
+{ #category : #tests }
+HeroTest >> testSt [
+	| hero |
+	hero := MSHero new st: 12.
+	self assert: hero st equals: 12.
+]
+
+{ #category : #tests }
+HeroTest >> testTakeHits [
+	| hero |
+	hero := MSHero
+		name: 'Joe'
+		st: 12
+		dx: 12
+		weapon: MSWeapon none
+		armor: MSArmor leather
+		shield: MSShield none.
+	hero takeHits: 2.
+	self assert: hero damageTaken equals: 0.
+	hero takeHits: 4.
+	self assert: hero damageTaken equals: 2.
+	"Drop armor"
+	hero
+		armor: MSArmor none;
+		takeHits: 4.
+	self assert: hero damageTaken equals: 6.
+	"Ready a Shield"
+	hero shield: MSShield smallShield; takeHits: 3.
+	self assert: hero damageTaken equals: 8.
 ]
