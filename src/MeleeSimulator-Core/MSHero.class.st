@@ -30,7 +30,7 @@ MSHero class >> allHeroes [
 	| index heroes armors shields |
 	heroes := OrderedCollection new.
 	armors := MSArmor armorRegistry values.
-	shields := MSShield shieldRegistry values.
+	shields := MSShield shieldRegistry values reject: [ :s | s = MSShield none ].
 	index := 0.
 	(8 to: 16)
 		do: [ :st | 

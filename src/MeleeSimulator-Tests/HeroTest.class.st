@@ -35,7 +35,7 @@ HeroTest >> testAdjSt [
 
 { #category : #tests }
 HeroTest >> testAllHeroes [
-	self assert: MSHero allHeroes size equals: 164
+	self assert: MSHero allHeroes size equals: 116
 ]
 
 { #category : #tests }
