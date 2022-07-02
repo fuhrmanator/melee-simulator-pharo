@@ -8,7 +8,7 @@ Class {
 MSTournamentExample >> runSimulationAllHeroes [
 	<script: 'self new runSimulationAllHeroes open'>
 	| t results c p heroes x wins horizontal |
-	t := MSTournament with: MSHero allHeroes for: 50.
+	t := MSTournament with: MSHero allHeroes for: 5.
 	t run.
 	results := Bag new.
 	t bouts
@@ -41,6 +41,8 @@ MSTournamentExample >> runSimulationAllHeroes [
 				numberOfTicks: 10;
 				asFloat).
 	c title: 'Wins for each Hero'.
+	c xlabel: 'Hero (' , heroes size asString , ')'.
+	c ylabel: 'Wins'.
 	c build.
 	p bars
 		doWithIndex: [ :bar :index | 
