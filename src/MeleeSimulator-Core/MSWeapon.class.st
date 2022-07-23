@@ -17,97 +17,97 @@ Class {
 	#category : #'MeleeSimulator-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MSWeapon class >> battleaxe [
 	^ self weaponRegistry at: #battleaxe
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MSWeapon class >> broadsword [
 	^ self weaponRegistry at: #broadsword
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MSWeapon class >> club [
 	^ self weaponRegistry at: #club
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MSWeapon class >> cutlass [
 	^ self weaponRegistry at: #cutlass
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MSWeapon class >> dagger [
 	^ self weaponRegistry at: #dagger
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MSWeapon class >> halberd [
 	^ self weaponRegistry at: #halberd
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MSWeapon class >> hammer [
 	^ self weaponRegistry at: #hammer
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MSWeapon class >> javelin [
 	^ self weaponRegistry at: #javelin
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MSWeapon class >> mace [
 	^ self weaponRegistry at: #mace
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MSWeapon class >> morningstar [
 	^ self weaponRegistry at: #morningstar
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MSWeapon class >> none [
 	^ self weaponRegistry at: #none
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MSWeapon class >> pikeAxe [
 	^ self weaponRegistry at: #pikeAxe
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MSWeapon class >> rapier [
 	^ self weaponRegistry at: #rapier
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 MSWeapon class >> reset [
 	weaponRegistry := nil
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MSWeapon class >> shortsword [
 	^ self weaponRegistry at: #shortsword
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MSWeapon class >> smallAx [
 	^ self weaponRegistry at: #smallAx
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MSWeapon class >> spear [
 	^ self weaponRegistry at: #spear
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MSWeapon class >> twoHandedSword [
 	^ self weaponRegistry at: #twoHandedSword
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 MSWeapon class >> weaponRegistry [
 	"name st dice modifier isTwoHanded isThrown isMissile isPole"
 

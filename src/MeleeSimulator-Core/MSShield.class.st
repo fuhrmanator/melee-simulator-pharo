@@ -12,12 +12,12 @@ Class {
 	#category : #'MeleeSimulator-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MSShield class >> largeShield [
 	^ self shieldRegistry at: #largeShield
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MSShield class >> none [
 	^ self shieldRegistry at: #none
 ]
@@ -27,7 +27,7 @@ MSShield class >> reset [
 	shieldRegistry := nil.
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 MSShield class >> shieldRegistry [
 	shieldRegistry
 		ifNil: [ shieldRegistry := Dictionary new.
@@ -46,7 +46,7 @@ MSShield class >> shieldRegistry [
 	^ shieldRegistry
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MSShield class >> smallShield [
 	^ self shieldRegistry at: #smallShield
 ]

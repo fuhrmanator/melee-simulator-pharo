@@ -23,7 +23,7 @@ Class {
 	#category : #'MeleeSimulator-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MSHero class >> allHeroes [
 	"Create all the possible hero configurations (ST/DX armor weapons)"
 
@@ -73,7 +73,7 @@ MSHero class >> allHeroes [
 	^ heroes
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MSHero class >> myrmidon [
 	^ self new
 		name: 'Myrmidon';
@@ -84,7 +84,7 @@ MSHero class >> myrmidon [
 		shield: MSShield smallShield
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 MSHero class >> name: heroName st: heroSt dx: heroDx weapon: heroWeapon armor: heroArmor shield: heroShield [
 	^ self new
 		name: heroName;

@@ -13,7 +13,7 @@ Class {
 	#category : #'MeleeSimulator-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 MSArmor class >> armorRegistry [
 	armorRegistry
 		ifNil: [ armorRegistry := Dictionary new.
@@ -40,22 +40,22 @@ MSArmor class >> armorRegistry [
 	^ armorRegistry
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MSArmor class >> chain [
 	^ armorRegistry at: #chain
 ]
 
-{ #category : #predefined }
+{ #category : #accessing }
 MSArmor class >> leather [
 	^ self armorRegistry at: #leather.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MSArmor class >> none [
 	^ armorRegistry at: #none.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MSArmor class >> plate [
 	^ armorRegistry at: #plate
 ]

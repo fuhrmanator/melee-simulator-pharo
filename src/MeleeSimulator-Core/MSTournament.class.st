@@ -9,7 +9,7 @@ Class {
 	#category : #'MeleeSimulator-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'accessing - convenience' }
 MSTournament class >> with: heroCollection for: number [
 	^ self new heroes: heroCollection nBouts: number
 ]
