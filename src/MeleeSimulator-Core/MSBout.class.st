@@ -24,7 +24,7 @@ MSBout class >> hero1: aMSHero hero2: aMSHero2 poleCharge: boolean1 defendPoleCh
 		defendPoleCharge: boolean2
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #rules }
 MSBout >> attackeeFacingBonus: attackee [
 	^ attackee isProne
 		ifTrue: [ 4 ]
@@ -38,7 +38,7 @@ MSBout >> defendPoleCharge: boolean [
 	isDefendOnPoleCharge := boolean
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #rules }
 MSBout >> fightToTheDeath [
 	| firstAttacker secondAttacker |
 	hero1 readiedWeapon ~= MSWeapon none
@@ -125,7 +125,7 @@ MSBout >> initialize [
 	heroMap := Dictionary new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #rules }
 MSBout >> isAutomaticHitForRoll: roll [
 	roll numberOfDice = 3
 		ifTrue: [ ^ roll total <= 5 ].
@@ -136,7 +136,7 @@ MSBout >> isAutomaticHitForRoll: roll [
 		error: 'Unsupported number of dice: ' , roll numberOfDice asString
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #rules }
 MSBout >> isAutomaticMissForRoll: roll [
 	roll numberOfDice = 3
 		ifTrue: [ ^ roll total >= 16 ].
@@ -146,18 +146,18 @@ MSBout >> isAutomaticMissForRoll: roll [
 		error: 'Unsupported number of dice: ' , roll numberOfDice asString
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #rules }
 MSBout >> isBoutFinished [
 	^ (hero1 isConscious & hero2 isConscious & hero1 canDoDamage & hero2 canDoDamage) not
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #rules }
 MSBout >> isBoutUnfinished [
 	^ hero1 isConscious & hero2 isConscious & hero1 canDoDamage
 		& hero2 canDoDamage
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #rules }
 MSBout >> isBrokenWeaponForRoll: roll [
 	roll numberOfDice = 3
 		ifTrue: [ ^ roll total = 18 ].
@@ -167,7 +167,7 @@ MSBout >> isBrokenWeaponForRoll: roll [
 		error: 'Unsupported number of dice: ' , roll numberOfDice asString
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #rules }
 MSBout >> isDoubleDamageForRoll: roll [
 	roll numberOfDice = 3
 		ifTrue: [ ^ roll total = 4 ].
@@ -178,7 +178,7 @@ MSBout >> isDoubleDamageForRoll: roll [
 		error: 'Unsupported number of dice: ' , roll numberOfDice asString
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #rules }
 MSBout >> isDroppedWeaponForRoll: roll [
 	roll numberOfDice = 3
 		ifTrue: [ ^ roll total = 17 ].
@@ -188,7 +188,7 @@ MSBout >> isDroppedWeaponForRoll: roll [
 		error: 'Unsupported number of dice: ' , roll numberOfDice asString
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #rules }
 MSBout >> isTripleDamageForRoll: roll [
 	roll numberOfDice = 3
 		ifTrue: [ ^ roll total = 3 ].
@@ -206,7 +206,7 @@ MSBout >> poleCharge: boolean [
 	isPoleCharge := boolean
 ]
 
-{ #category : #bloodyhell }
+{ #category : #rules }
 MSBout >> resolveAttackFor: attacker attacking: attackee withRoll: roll [
 	| hits facingBonus numDice doCriticalDamage |
 	hits := 0.
@@ -333,7 +333,7 @@ MSBout >> showStatusOfAttacker: attacker attacking: attackee [
 				crTrace: 'Defender is defending making the attacker roll 4 dice.' ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #rules }
 MSBout >> tryAttackFor: attacker on: attackee [
 	| numDice roll |
 	self showStatusOfAttacker: attacker attacking: attackee.
@@ -368,7 +368,7 @@ MSBout >> tryAttackFor: attacker on: attackee [
 		ifTrue: [ self crTrace: 'But he''s defending.' ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #rules }
 MSBout >> tryDefendingAttacker: attacker defender: defender defendOnPoleCharge: defendOnPoleCharge [
 	defender isKnockedDown not
 		& (defender readiedWeapon ~= MSWeapon none)
@@ -391,7 +391,7 @@ MSBout >> tryDefendingAttacker: attacker defender: defender defendOnPoleCharge: 
 									' is defending this turn because attacker is charging with pole weapon.' ]	"don't defend if also charging with pole weapon" ]
 ]
 
-{ #category : #accessing }
+{ #category : #rules }
 MSBout >> tryPickUp: hero [
 	hero droppedWeapon = MSWeapon none
 		ifTrue: [ ^ self ].
@@ -403,7 +403,7 @@ MSBout >> tryPickUp: hero [
 					' is picking up his weapon this turn (facing rear in all six directions).'
 ]
 
-{ #category : #accessing }
+{ #category : #rules }
 MSBout >> tryStandUp: hero [
 	hero isKnockedDown
 		ifFalse: [ ^ self ].
@@ -411,7 +411,7 @@ MSBout >> tryStandUp: hero [
 	self crTrace: hero name , ' is standing up this turn.'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MSBout >> winner [
 	^ winner
 ]

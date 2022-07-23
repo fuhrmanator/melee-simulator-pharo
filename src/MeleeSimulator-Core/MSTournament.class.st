@@ -34,7 +34,7 @@ MSTournament >> initialize [
 { #category : #'as yet unclassified' }
 MSTournament >> run [
 	| combinations counter |
-	combinations := heroes size take: 2.
+	combinations := heroes size numberOfCombinationsTaken: 2.
 	counter := 0.
 	[ :job | 
 	heroes
