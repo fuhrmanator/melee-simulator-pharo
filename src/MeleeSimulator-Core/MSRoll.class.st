@@ -37,17 +37,17 @@ MSRoll >> initialize [
 	modifier := 0.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MSRoll >> modifier: mod [ 
 	modifier := mod
 ]
 
-{ #category : #access }
+{ #category : #accessing }
 MSRoll >> numberOfDice [
 	^ diceRolls size
 ]
 
-{ #category : #access }
+{ #category : #accessing }
 MSRoll >> total [
 	^ modifier + (diceRolls inject: 0 into: [ :sum :each | sum + each ])
 ]

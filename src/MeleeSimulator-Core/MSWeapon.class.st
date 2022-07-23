@@ -332,7 +332,7 @@ MSWeapon >> dice: anObject [
 	dice := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #combat }
 MSWeapon >> doDamage [
 	| roll damage |
 	self

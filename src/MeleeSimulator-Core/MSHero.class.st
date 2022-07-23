@@ -95,7 +95,7 @@ MSHero class >> name: heroName st: heroSt dx: heroDx weapon: heroWeapon armor: h
 		shield: heroShield
 ]
 
-{ #category : #accessing }
+{ #category : #combat }
 MSHero >> adjDx [
 	^ dx - armor dxAdjustment - shield dxAdjustment
 		-
@@ -157,12 +157,12 @@ MSHero >> canDoDamage [
 		& (readiedWeapon ~= MSWeapon none | (droppedWeapon ~= MSWeapon none))
 ]
 
-{ #category : #accessing }
+{ #category : #combat }
 MSHero >> damageTaken [
 	^ damageTaken
 ]
 
-{ #category : #accessing }
+{ #category : #combat }
 MSHero >> damageTakenThisRound [
 	^ damageTakenThisRound
 ]
@@ -173,7 +173,7 @@ MSHero >> dropWeapon [
 	readiedWeapon := MSWeapon none.
 ]
 
-{ #category : #accessing }
+{ #category : #combat }
 MSHero >> droppedWeapon [
 	^ droppedWeapon
 ]
@@ -188,7 +188,7 @@ MSHero >> dx: anInteger [
 	dx := anInteger
 ]
 
-{ #category : #accessing }
+{ #category : #combat }
 MSHero >> hasDxPenaltyFromInjuries [
 	^ hasDxPenaltyFromInjuries
 ]
@@ -225,12 +225,12 @@ MSHero >> isAlive [
 	^ st - damageTaken > 0
 ]
 
-{ #category : #accessing }
+{ #category : #combat }
 MSHero >> isCharging [
 	^ isCharging
 ]
 
-{ #category : #accessing }
+{ #category : #combat }
 MSHero >> isCharging: anObject [
 	isCharging := anObject
 ]
@@ -240,22 +240,22 @@ MSHero >> isConscious [
 	^ st - damageTaken > 1
 ]
 
-{ #category : #accessing }
+{ #category : #combat }
 MSHero >> isDefending [
 	^ isDefending
 ]
 
-{ #category : #accessing }
+{ #category : #combat }
 MSHero >> isDefending: anObject [
 	isDefending := anObject
 ]
 
-{ #category : #accessing }
+{ #category : #combat }
 MSHero >> isKnockedDown [
 	^ isKnockedDown
 ]
 
-{ #category : #accessing }
+{ #category : #combat }
 MSHero >> isPickingUpWeapon [
 	^ isPickingUpWeapon
 ]
@@ -265,12 +265,12 @@ MSHero >> isProne [
 	^ isPickingUpWeapon 
 ]
 
-{ #category : #accessing }
+{ #category : #combat }
 MSHero >> isRecovering [
 	^ isRecovering
 ]
 
-{ #category : #accessing }
+{ #category : #combat }
 MSHero >> isStandingUp [
 	^ isStandingUp
 ]
@@ -315,12 +315,12 @@ MSHero >> pickUpWeapon [
 	isPickingUpWeapon := true.
 ]
 
-{ #category : #accessing }
+{ #category : #combat }
 MSHero >> readiedWeapon [
 	^ readiedWeapon
 ]
 
-{ #category : #accessing }
+{ #category : #combat }
 MSHero >> readiedWeapon: aMSWeapon [ 
 	readiedWeapon := aMSWeapon 
 ]
@@ -345,7 +345,7 @@ MSHero >> st: anInteger [
 	st := anInteger
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #combat }
 MSHero >> standUp [
 	isStandingUp := true.
 ]

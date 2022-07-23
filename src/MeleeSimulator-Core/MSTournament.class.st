@@ -14,24 +14,24 @@ MSTournament class >> with: heroCollection for: number [
 	^ self new heroes: heroCollection nBouts: number
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MSTournament >> bouts [
 	^ bouts
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MSTournament >> heroes: aCollection nBouts: number [ 
 	heroes := aCollection.
 	nBouts := number
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 MSTournament >> initialize [ 
 	super initialize.
 	bouts := OrderedCollection new.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #rules }
 MSTournament >> run [
 	| combinations counter |
 	combinations := heroes size numberOfCombinationsTaken: 2.

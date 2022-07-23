@@ -4,7 +4,7 @@ Class {
 	#category : #'MeleeSimulator-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #examples }
 MSTournamentExample >> runSimulationAllHeroes [
 	<script: 'self new runSimulationAllHeroes open'>
 	| t results c p heroes x wins horizontal |
